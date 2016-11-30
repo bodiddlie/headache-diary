@@ -1,84 +1,82 @@
 import React, {Component} from 'react';
+import cx from 'classnames';
 
-import {HoverHOC} from './hover';
+import './painmeter.css';
 
 export class PainMeter extends Component {
+  static propTypes = {
+    min: React.PropTypes.number,
+    max: React.PropTypes.number
+  }
+
+  static defaultProps = {
+    min: 0,
+    max: 10
+  }
+
   state = {
     value: 5
-  };
+  }
 
   handleSelect = (value) => {
     this.setState({value});
   }
 
   render() {
-    const meterStyle = {
-      display: 'flex'
-    };
-
+    const {min, max} = this.props;
     let segments = [];
-    /*
-    for (let i = 0; i <= 10; i++) {
+    for (let i = min; i <= max; i++) {
       segments.push((
-        <Hover key={i} style={{flexGrow: '1'}}>
-          {({hovered}) => (
-            <PainSegment 
-              value={i} 
-              active={this.state.value === i} 
-              hovered={hovered} 
-              onSelect={this.handleSelect} 
-            />
-          )}
-        </Hover>
-      ));
-    }
-    */
-    for (let i = 0; i <= 10; i++) {
-      segments.push((
-        <HoverPainSegment
+        <PainSegment
           key={i}
           value={i}
           active={this.state.value === i}
           onSelect={this.handleSelect}
+          first={i === min}
+          last={i === max}
         />
       ));
     }
 
     return (
-      <div style={meterStyle}>
+      <div className="meter">
         {segments}
       </div>
     );
   }
 }
 
-const PainSegment = ({value, active, hovered, onSelect}) => {
+const PainSegment = ({value, active, onSelect, first, last}) => {
   const segmentStyle = {
-    display: 'flex',
-    flexGrow: '1',
-    height: '50px',
-    justifyContent: 'center',
-    background: `hsl(${120 - Math.ceil((value / 10) * 120)}, 100%, 50%`,
-    color: '#333',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    border: active ?
-      '5px solid purple' :
-      hovered ?
-        '5px solid #cdcdcd' :
-        '5px solid transparent'
+    background: `hsl(${120 - Math.ceil((value / 10) * 120)}, 100%, 50%`
   };
 
+  const radiusStyle = first ?
+    { borderRadius: '15px 0 0 15px' } :
+    last ?
+      { borderRadius: '0 15px 15px 0' } :
+      { borderRadius: '0' }
+
+  const classes = cx(
+    'segment',
+    { active }
+  );
+
   return (
-    <div style={segmentStyle} onClick={() => onSelect(value)}><span>{value}</span></div>
+    <div 
+      className={classes}
+      style={{...segmentStyle, ...radiusStyle}} 
+      onClick={() => onSelect(value)}
+    >
+      <span>{value}</span>
+    </div>
   )
 }
 
 PainSegment.propTypes = {
   value: React.PropTypes.number.isRequired,
   active: React.PropTypes.bool.isRequired,
-  hovered: React.PropTypes.bool.isRequired,
-  onSelect: React.PropTypes.func.isRequired
+  onSelect: React.PropTypes.func.isRequired,
+  first: React.PropTypes.bool,
+  last: React.PropTypes.bool
 }
-
-const HoverPainSegment = HoverHOC(PainSegment);

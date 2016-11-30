@@ -3,14 +3,21 @@
 }
 
 .segment {
+  display: flex;
   flex-grow: 1;
-  border: 1px solid transparent;
+  cursor: pointer;
+  height: 50px;
+  justify-content: center;
+  color: #333;
+  align-items: center;
+  font-weight: bold;
+  border: 5px solid transparent;
 }
 
 .segment:hover {
-  border: 1px solid #000;
+  border: 5px solid #000;
 }
 
 .segment.active {
-  border: 1px solid #cdcdcd;
+  border: 5px solid #cdcdcd;
 }

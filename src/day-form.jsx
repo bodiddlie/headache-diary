@@ -12,8 +12,7 @@ export class DayForm extends Component {
   state = {
     date: null,
     painLevel: 5,
-    notes: '',
-    focused: false
+    notes: ''
   }
 
   handleDateChange = (date, modifiers, evt) => {
@@ -36,6 +35,10 @@ export class DayForm extends Component {
           />
           <div style={{width: '50%'}}>
             <PainMeter />
+          </div>
+          <div>
+            <label>Notes</label>
+            <textarea value={this.state.notes} onChange={(e) => {this.setState({notes: e.target.value});}} />
           </div>
         </div>
       </div>
