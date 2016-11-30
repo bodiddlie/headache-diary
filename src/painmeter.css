@@ -1,0 +1,16 @@
+.meter {
+  display: flex;
+}
+
+.segment {
+  flex-grow: 1;
+  border: 1px solid transparent;
+}
+
+.segment:hover {
+  border: 1px solid #000;
+}
+
+.segment.active {
+  border: 1px solid #cdcdcd;
+}
