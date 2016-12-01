@@ -1,0 +1,46 @@
+.datepicker {
+  background: white;
+  width: 370px;
+  padding: 10px;
+}
+
+.dp-month * + * {
+  margin-top: 0;
+}
+
+.dp-month {
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker > table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.datepicker td {
+  width: 50px;
+  padding: 3px 0;
+  border: 1px solid #cdcdcd;
+}
+
+.datepicker td:hover {
+  background-color: red;
+}
+
+.datepicker .dp-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 15px;
+  margin: 0 10px;
+  width: 30px;
+  height: 30px;
+}
+
+.datepicker div.booked {
+  background-color: green;
+}

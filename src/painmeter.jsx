@@ -1,61 +1,50 @@
-import React, {Component} from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import './painmeter.css';
 
-export class PainMeter extends Component {
-  static propTypes = {
-    min: React.PropTypes.number,
-    max: React.PropTypes.number
+export const PainMeter = ({min, max, value, onSelect}) => {
+  let segments = [];
+  for (let i = min; i <= max; i++) {
+    segments.push((
+      <PainSegment
+        key={i}
+        value={i}
+        active={value === i}
+        onSelect={onSelect}
+        first={i === min}
+        last={i === max}
+        count={max - min + 1}
+      />
+    ));
   }
 
-  static defaultProps = {
-    min: 0,
-    max: 10
-  }
-
-  state = {
-    value: 5
-  }
-
-  handleSelect = (value) => {
-    this.setState({value});
-  }
-
-  render() {
-    const {min, max} = this.props;
-    let segments = [];
-    for (let i = min; i <= max; i++) {
-      segments.push((
-        <PainSegment
-          key={i}
-          value={i}
-          active={this.state.value === i}
-          onSelect={this.handleSelect}
-          first={i === min}
-          last={i === max}
-        />
-      ));
-    }
-
-    return (
-      <div className="meter">
-        {segments}
-      </div>
-    );
-  }
+  return (
+    <div className="meter">
+      {segments}
+    </div>
+  );
 }
 
-const PainSegment = ({value, active, onSelect, first, last}) => {
-  const segmentStyle = {
-    background: `hsl(${120 - Math.ceil((value / 10) * 120)}, 100%, 50%`
-  };
+PainMeter.propTypes = {
+  min: React.PropTypes.number,
+  max: React.PropTypes.number,
+  value: React.PropTypes.number,
+  onSelect: React.PropTypes.func.isRequired
+}
 
-  const radiusStyle = first ?
-    { borderRadius: '15px 0 0 15px' } :
-    last ?
-      { borderRadius: '0 15px 15px 0' } :
-      { borderRadius: '0' }
+PainMeter.defaultProps = {
+  min: 0,
+  max: 10,
+  value: 5
+}
+
+const PainSegment = ({value, active, onSelect, first, last, count}) => {
+  const startColor = 120 - Math.ceil((value / count) * 120);
+  const endColor = 120 - Math.ceil(((value + 1) / count) * 120);
+  const segmentStyle = {
+    background: `linear-gradient(to right, hsl(${startColor}, 100%, 50%), hsl(${endColor}, 100%, 50%))`
+  };
 
   const classes = cx(
     'segment',
@@ -65,7 +54,7 @@ const PainSegment = ({value, active, onSelect, first, last}) => {
   return (
     <div 
       className={classes}
-      style={{...segmentStyle, ...radiusStyle}} 
+      style={segmentStyle} 
       onClick={() => onSelect(value)}
     >
       <span>{value}</span>
@@ -75,8 +64,9 @@ const PainSegment = ({value, active, onSelect, first, last}) => {
 
 PainSegment.propTypes = {
   value: React.PropTypes.number.isRequired,
+  count: React.PropTypes.number.isRequired,
   active: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
   first: React.PropTypes.bool,
-  last: React.PropTypes.bool
+  last: React.PropTypes.bool,
 }

@@ -2,6 +2,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: seagreen;
+}
+
+* + * {
+  margin-top: 15px;
+}
+.wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapper {
+    width: 100%;
+  }
 }
 
 html {
