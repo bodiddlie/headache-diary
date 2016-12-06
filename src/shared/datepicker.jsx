@@ -6,37 +6,67 @@ import './datepicker.css';
 
 export class DatePicker extends Component {
   static propTypes = {
-    value: PropTypes.object
+    value: PropTypes.object,
+    calculateBackground: PropTypes.func
   }
 
   constructor(props) {
     super(props);
 
     const value = this.props.value || moment();
+    const currentMonth = moment(value).startOf('month');
+    const days = this.generateDays(currentMonth);
 
     this.state = {
       value,
-      currentMonth: value.month(),
-      days: this.generateDays(value)
+      currentMonth,
+      days
     }
   }
 
-  generateDays = (date) => {
-    const lastMonthDays = date.startOf('month').day();
-    let current = moment(date).subtract(lastMonthDays, 'days');
+  generateDays = (currentMonth) => {
+    const lastMonthDays = moment(currentMonth).startOf('month').day();
+    let current = moment(currentMonth).subtract(lastMonthDays, 'days');
 
     let days = [];
 
     for (let i = 0; i < 42; i++) {
       let day = {
         date: current,
-        booked: i % 2 === 0 ? true : false
       }
       days.push(day);
       current = moment(current).add(1, 'days');
     }
 
     return days;
+  }
+
+  onNextMonth = () => {
+    const currentMonth = moment(this.state.currentMonth).add(1, 'months');
+    this.setState({
+      currentMonth,
+      days: this.generateDays(currentMonth)
+    });
+  }
+
+  onPrevMonth = () => {
+    const currentMonth = moment(this.state.currentMonth).subtract(1, 'months');
+    this.setState({
+      currentMonth,
+      days: this.generateDays(currentMonth)
+    });
+  }
+
+  onDayClick = (day) => {
+    if (day.isBefore(this.state.currentMonth, 'month')) {
+      this.onPrevMonth();
+    } else if(day.isAfter(this.state.currentMonth, 'month')) {
+      this.onNextMonth();
+    }
+
+    this.setState({
+      value: day
+    });
   }
 
   render() {
@@ -46,16 +76,28 @@ export class DatePicker extends Component {
       let dayCells = [];
       for (let col = 0; col < 7; col++) {
         const day = days[col + (row * 7)];
-        dayCells.push(<Day key={col} {...day} />)
+
+        const color = this.props.calculateBackground ?
+          this.props.calculateBackground(day.date) :
+          'transparent';
+        dayCells.push((
+          <Day 
+            key={col} 
+            date={day.date}
+            selected={day.date.isSame(this.state.value, 'day')}
+            onDayClick={this.onDayClick}
+            color={color}
+          />
+        ))
       }
       dayRows.push(<tr key={row}>{dayCells}</tr>);
     }
     return (
       <div className="datepicker">
         <div className="dp-month">
-          <button type="button">&larr;</button>
-          <span>December 2016</span>
-          <button type="button">&rarr;</button>
+          <button type="button" onClick={this.onPrevMonth}>&larr;</button>
+          <span>{this.state.currentMonth.format('MMMM YYYY')}</span>
+          <button type="button" onClick={this.onNextMonth}>&rarr;</button>
         </div>
         <table>
           <tbody>
@@ -76,16 +118,26 @@ export class DatePicker extends Component {
   }
 }
 
-const Day = ({date, booked}) => {
+const Day = ({date, selected, onDayClick, color}) => {
+  const containerClasses = cx(
+    'dp-container',
+    {selected}
+  );
+
   const classes = cx(
     'dp-day',
-    {booked}
   );
+
+  const circleColorStyle = {
+    background: color
+  };
 
   return (
     <td>
-      <div className={classes}>
+      <div className={containerClasses} onClick={() => onDayClick(date)}>
+      <div className={classes} style={circleColorStyle}>
         <span>{date.date()}</span>
+      </div>
       </div>
     </td>
   );
@@ -93,5 +145,8 @@ const Day = ({date, booked}) => {
 
 Day.propTypes = {
   date: PropTypes.object.isRequired,
-  booked: PropTypes.bool
+  booked: PropTypes.bool,
+  selected: PropTypes.bool,
+  onDayClick: PropTypes.func.isRequired,
+  color: PropTypes.string
 }

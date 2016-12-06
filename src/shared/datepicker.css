@@ -1,6 +1,6 @@
 .datepicker {
   background: white;
-  width: 370px;
+  width: 300px;
   padding: 10px;
 }
 
@@ -18,25 +18,38 @@
   text-align: center;
   border-collapse: collapse;
   border-spacing: 0;
+  font-size: .75em;
 }
 
 .datepicker td {
-  width: 50px;
-  padding: 3px 0;
   border: 1px solid #cdcdcd;
+  width:40px;
+  height: 40px;
+  cursor: pointer;
 }
 
-.datepicker td:hover {
-  background-color: red;
+.datepicker .dp-container:hover {
+  border: 1px solid red;
+}
+
+.datepicker .dp-container.selected {
+  border: 1px solid blue;
+}
+
+.datepicker .dp-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid transparent;
 }
 
 .datepicker .dp-day {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
   border-radius: 15px;
-  margin: 0 10px;
   width: 30px;
   height: 30px;
 }

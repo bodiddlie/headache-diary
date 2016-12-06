@@ -48,14 +48,26 @@ export class DayForm extends Component {
 
   checkBooked = (day) => {
     const dayString = day.format('YYYY-MM-DD');
-    //return !day.isSame(this.state.date, 'day') && data.entries.hasOwnProperty(dayString);
     return data.entries.hasOwnProperty(dayString);
+  }
+
+  calculateBackground = (day) => {
+    const dayString = day.format('YYYY-MM-DD');
+    if (data.entries.hasOwnProperty(dayString)) {
+      const pain = data.entries[dayString].painLevel;
+      const startColor = 120 - Math.ceil((pain / 11) * 120);
+      const endColor = 120 - Math.ceil(((pain + 1) / 11) * 120);
+      return `radial-gradient(circle, hsl(${startColor}, 100%, 50%), 60%, hsl(${endColor}, 100%, 50%))`;
+    }
+    return 'transparent';
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-          <DatePicker />
+          <DatePicker 
+            calculateBackground={this.calculateBackground}
+          />
           <DayPicker 
             initialVisibleMonth={() => this.state.date}
             onDayClick={this.handleDateChange} 
