@@ -1,8 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 
-import './painmeter.css';
-
 export const PainMeter = ({min, max, value, onSelect}) => {
   let segments = [];
   for (let i = min; i <= max; i++) {

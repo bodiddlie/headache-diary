@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 
-import './datepicker.css';
-
 export class DatePicker extends Component {
   static propTypes = {
     value: PropTypes.object,

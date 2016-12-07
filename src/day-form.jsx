@@ -6,8 +6,6 @@ import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
 
-import './day-form.css';
-
 import data from './data';
 
 export class DayForm extends Component {
