@@ -69,27 +69,20 @@ export class DatePicker extends Component {
 
   render() {
     const {days} = this.state;
-    let dayRows = [];
-    for (let row = 0; row < 6; row++) {
-      let dayCells = [];
-      for (let col = 0; col < 7; col++) {
-        const day = days[col + (row * 7)];
+    const {calculateBackground} = this.props;
 
-        const color = this.props.calculateBackground ?
-          this.props.calculateBackground(day.date) :
-          'transparent';
-        dayCells.push((
-          <Day 
-            key={col} 
-            date={day.date}
-            selected={day.date.isSame(this.state.value, 'day')}
-            onDayClick={this.onDayClick}
-            color={color}
-          />
-        ))
-      }
-      dayRows.push(<tr key={row}>{dayCells}</tr>);
-    }
+    const dayItems = days.map((day) => {
+      const color = calculateBackground ? calculateBackground(day.date) : 'transparent';
+      return (
+        <Day
+          key={day.date.format('MMDDYYYY')}
+          date={day.date}
+          selected={day.date.isSame(this.state.value, 'day')}
+          onDayClick={this.onDayClick}
+          color={color}
+        />
+      );
+    })
     return (
       <div className="datepicker">
         <div className="dp-month">
@@ -97,20 +90,16 @@ export class DatePicker extends Component {
           <span>{this.state.currentMonth.format('MMMM YYYY')}</span>
           <button type="button" onClick={this.onNextMonth}>&rarr;</button>
         </div>
-        <table>
-          <tbody>
-            <tr>
-              <td>Sun</td>
-              <td>Mon</td>
-              <td>Tue</td>
-              <td>Wed</td>
-              <td>Thu</td>
-              <td>Fri</td>
-              <td>Sat</td>
-            </tr>
-            {dayRows}
-          </tbody>
-        </table>
+        <div className="dp-calendar">
+          <div className="dp-calendar--item">Sun</div>
+          <div className="dp-calendar--item">Mon</div>
+          <div className="dp-calendar--item">Tue</div>
+          <div className="dp-calendar--item">Wed</div>
+          <div className="dp-calendar--item">Thu</div>
+          <div className="dp-calendar--item">Fri</div>
+          <div className="dp-calendar--item">Sat</div>
+          {dayItems}
+        </div>
       </div>
     )
   }
@@ -122,23 +111,19 @@ const Day = ({date, selected, onDayClick, color}) => {
     {selected}
   );
 
-  const classes = cx(
-    'dp-day',
-  );
-
   const circleColorStyle = {
     background: color
   };
 
   return (
-    <td>
+    <div className="dp-calendar--item">
       <div className={containerClasses} onClick={() => onDayClick(date)}>
-      <div className={classes} style={circleColorStyle}>
-        <span>{date.date()}</span>
+        <div className="dp-day" style={circleColorStyle}>
+          <span>{date.date()}</span>
+        </div>
       </div>
-      </div>
-    </td>
-  );
+    </div>
+  )
 }
 
 Day.propTypes = {
