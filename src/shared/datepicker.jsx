@@ -5,7 +5,8 @@ import cx from 'classnames';
 export class DatePicker extends Component {
   static propTypes = {
     value: PropTypes.object,
-    calculateBackground: PropTypes.func
+    calculateBackground: PropTypes.func,
+    onDayClick: PropTypes.func
   }
 
   constructor(props) {
@@ -65,6 +66,8 @@ export class DatePicker extends Component {
     this.setState({
       value: day
     });
+
+    this.props.onDayClick(day);
   }
 
   render() {
