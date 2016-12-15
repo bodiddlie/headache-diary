@@ -6,7 +6,7 @@
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
-    "react-scripts": "0.8.1"
+    "react-scripts": "0.8.4"
   },
   "dependencies": {
     "classnames": "^2.2.5",
