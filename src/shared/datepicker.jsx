@@ -6,7 +6,8 @@ export class DatePicker extends Component {
   static propTypes = {
     value: PropTypes.object,
     calculateBackground: PropTypes.func,
-    onDayClick: PropTypes.func
+    onDayClick: PropTypes.func,
+    onMonthChange: PropTypes.func
   }
 
   constructor(props) {
@@ -31,7 +32,7 @@ export class DatePicker extends Component {
 
     for (let i = 0; i < 42; i++) {
       let day = {
-        date: current,
+        date: current.month() === currentMonth.month() ? current : null,
       }
       days.push(day);
       current = moment(current).add(1, 'days');
@@ -46,6 +47,8 @@ export class DatePicker extends Component {
       currentMonth,
       days: this.generateDays(currentMonth)
     });
+
+    this.props.onMonthChange && this.props.onMonthChange(currentMonth);
   }
 
   onPrevMonth = () => {
@@ -54,15 +57,11 @@ export class DatePicker extends Component {
       currentMonth,
       days: this.generateDays(currentMonth)
     });
+
+    this.props.onMonthChange && this.props.onMonthChange(currentMonth);
   }
 
   onDayClick = (day) => {
-    if (day.isBefore(this.state.currentMonth, 'month')) {
-      this.onPrevMonth();
-    } else if(day.isAfter(this.state.currentMonth, 'month')) {
-      this.onNextMonth();
-    }
-
     this.setState({
       value: day
     });
@@ -74,17 +73,21 @@ export class DatePicker extends Component {
     const {days} = this.state;
     const {calculateBackground} = this.props;
 
-    const dayItems = days.map((day) => {
+    const dayItems = days.map((day, index) => {
+      if (day.date) {
       const color = calculateBackground ? calculateBackground(day.date) : 'transparent';
-      return (
-        <Day
-          key={day.date.format('MMDDYYYY')}
-          date={day.date}
-          selected={day.date.isSame(this.state.value, 'day')}
-          onDayClick={this.onDayClick}
-          color={color}
-        />
-      );
+        return (
+          <Day
+            key={day.date.format('MMDDYYYY')}
+            date={day.date}
+            selected={day.date.isSame(this.state.value, 'day')}
+            onDayClick={this.onDayClick}
+            color={color}
+          />
+        );
+      } else {
+        return <EmptyDay key={index} />;
+      }
     })
     return (
       <div className="datepicker">
@@ -136,3 +139,13 @@ Day.propTypes = {
   onDayClick: PropTypes.func.isRequired,
   color: PropTypes.string
 }
+
+const EmptyDay = () => (
+  <div className="dp-calendar--item">
+    <div className="dp-empty">
+      <div className="dp-day">
+        <span>&nbsp;</span>
+      </div>
+    </div>
+  </div>
+);
