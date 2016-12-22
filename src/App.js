@@ -8,8 +8,31 @@ import {DayForm} from './day-form';
 import {Dashboard} from './dashboard';
 import {Login} from './login';
 import {Register} from './register';
+import {auth} from './firebase';
 
 class App extends Component {
+  state = {
+    uid: null
+  };
+
+  static childContextTypes = {
+    uid: React.PropTypes.string
+  }
+
+  getChildContext() {
+    return {uid: this.state.uid};
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({uid: user.uid});
+      } else {
+        this.setState({uid: null});
+      }
+    });
+  }
+
   render() {
     return (
       <BrowserRouter>

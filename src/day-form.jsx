@@ -9,6 +9,10 @@ import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
 
 export class DayForm extends Component {
+  static contextTypes = {
+    uid: React.PropTypes.string
+  }
+
   state = {
     date: moment(),
     painLevel: 5,
@@ -23,15 +27,17 @@ export class DayForm extends Component {
     this.debouncedNotes = _.debounce(this.updateNotes, 1000);
   }
 
-  componentDidMount() {
-    this.db = db.ref().child('entries');
-    const {date, currentMonth} = this.state;
-    this.getEntryForDate(date);
-    this.loadEntriesForMonth(currentMonth)
-  }
-
   componentWillUnmount() {
     this.db.off();
+  }
+
+  componentDidUpdate(prevProps, prevState, prevContext) {
+    const {date, currentMonth} = this.state;
+    if (this.context.uid && this.context.uid !== prevContext.uid) {
+      this.db = db.ref().child('entries').child(this.context.uid);
+      this.getEntryForDate(date);
+      this.loadEntriesForMonth(currentMonth);
+    }
   }
 
   getEntryForDate = (date) => {
