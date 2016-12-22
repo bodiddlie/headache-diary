@@ -1,50 +1,88 @@
 import React, {Component} from 'react'
 import moment from 'moment';
+import _ from 'lodash';
+
+import {db} from './firebase';
 
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
 
-import data from './data';
-
 export class DayForm extends Component {
   state = {
     date: moment(),
     painLevel: 5,
-    notes: ''
+    notes: '',
+    entries: {},
+    currentMonth: moment().startOf('month')
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.debouncedNotes = _.debounce(this.updateNotes, 1000);
   }
 
   componentDidMount() {
-    const {date} = this.state;
+    this.db = db.ref().child('entries');
+    const {date, currentMonth} = this.state;
     this.getEntryForDate(date);
+    this.loadEntriesForMonth(currentMonth)
+  }
+
+  componentWillUnmount() {
+    this.db.off();
   }
 
   getEntryForDate = (date) => {
     const dateString = date.format('YYYY-MM-DD');
-    if (data.entries.hasOwnProperty(dateString)) {
-      const entry = data.entries[dateString];
+    if (this.state.entries.hasOwnProperty(dateString)) {
+      const entry = this.state.entries[dateString];
+      entry.date = moment(entry.date);
       this.setState(entry);
-    }  else {
-      this.setState({date, painLevel: 5, notes: ''});
+    } else {
+      this.setState({date, painLevel: -1, notes: ''});
     }
   }
 
-  handleDateChange = (date) => {
-    this.getEntryForDate(date);
+  loadEntriesForMonth = (currentMonth) => {
+    this.db.off();
+    const start = currentMonth.format('YYYY-MM-DD');
+    const end = moment(currentMonth).endOf('month').format('YYYY-MM-DD');
+    this.db.orderByKey().startAt(start).endAt(end).on('value', snap => {
+      const entries = snap.val() || {};
+      this.setState({entries});
+    }, err => {console.log(err)});
   }
 
   handleLevelChange = (painLevel) => {
     this.setState({painLevel});
+    const date = this.state.date.format('YYYY-MM-DD');
+    this.db.child(date).set({
+      date,
+      notes: this.state.notes,
+      painLevel
+    });
     this.forceUpdate();
+  }
+
+  handleMonthChange = (currentMonth) => {
+    this.setState({currentMonth});
+    this.loadEntriesForMonth(currentMonth);
   }
 
   handleNotesChange = (notes) => {
     this.setState({notes});
+    this.debouncedNotes();
   }
 
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    console.log(this.state);
+  updateNotes = () => {
+    const date = this.state.date.format('YYYY-MM-DD');
+    this.db.child(date).set({
+      date,
+      notes: this.state.notes,
+      painLevel: this.state.painLevel
+    });
   }
 
   calculateBackground = (day) => {
@@ -57,19 +95,20 @@ export class DayForm extends Component {
     };
 
     if (day.isSame(this.state.date, 'day')) {
-      return colorFn(this.state.painLevel);
-    } else if (data.entries.hasOwnProperty(dayString)) {
-      return colorFn(data.entries[dayString].painLevel);
+      return this.state.painLevel >= 0 ? colorFn(this.state.painLevel): 'transparent';
+    } else if (this.state.entries.hasOwnProperty(dayString)) {
+      return colorFn(this.state.entries[dayString].painLevel);
     }
     return 'transparent';
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="day-form" onSubmit={this.handleSubmit}>
           <DatePicker 
             calculateBackground={this.calculateBackground}
             onDayClick={this.getEntryForDate}
+            onMonthChange={this.handleMonthChange}
           />
           <div style={{width: '100%'}}>
             <PainMeter 
@@ -84,9 +123,6 @@ export class DayForm extends Component {
             value={this.state.notes} 
             onChange={this.handleNotesChange} 
           />
-          <div>
-            <button className="submit" type="submit">Save</button>
-          </div>
       </form>
     )
   }

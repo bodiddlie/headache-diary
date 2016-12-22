@@ -3,3 +3,9 @@
 @import 'day-form';
 @import 'painmeter';
 @import 'datepicker';
+@import 'login';
+
+.validation-error {
+  color: red;
+  font-weight: bold;
+}
