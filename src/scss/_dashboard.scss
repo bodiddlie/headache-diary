@@ -1,7 +1,17 @@
 .dashboard {
   display:flex;
   flex-direction: column;
-  * + * {
-    margin-top: 0;
-  }
+  align-items: center;
+  // * + * {
+  //   margin-top: 0;
+  // }
+}
+
+.DateRangePicker * + * {
+  margin-top: 0;
+}
+
+.pain-chart {
+  width: 100%;
+  background: #fff;
 }

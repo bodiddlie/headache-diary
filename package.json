@@ -14,6 +14,9 @@
     "lodash": "^4.17.2",
     "moment": "^2.17.0",
     "react": "^15.4.1",
+    "react-addons-shallow-compare": "^15.4.1",
+    "react-addons-transition-group": "^15.4.1",
+    "react-dates": "^4.3.0",
     "react-dom": "^15.4.1",
     "react-router": "next",
     "recharts": "^0.19.1"

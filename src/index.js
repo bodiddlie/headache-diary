@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './style.css';
+import 'react-dates/lib/css/_datepicker.css'
 
 ReactDOM.render(
   <App />,
