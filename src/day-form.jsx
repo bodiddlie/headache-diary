@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import moment from 'moment';
 import _ from 'lodash';
+import {StyleSheet, css} from 'aphrodite';
 
 import {db} from './firebase';
-
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
+
+let styles;
 
 export class DayForm extends Component {
   static contextTypes = {
@@ -111,19 +113,17 @@ export class DayForm extends Component {
 
   render() {
     return (
-      <form className="day-form" onSubmit={this.handleSubmit}>
+      <form className={css(styles.dayForm)} onSubmit={this.handleSubmit}>
           <DatePicker 
             calculateBackground={this.calculateBackground}
             onDayClick={this.getEntryForDate}
             onMonthChange={this.handleMonthChange}
           />
-          <div style={{width: '100%'}}>
-            <PainMeter 
-              max={10} 
-              onSelect={this.handleLevelChange} 
-              value={this.state.painLevel} 
-            />
-          </div>
+          <PainMeter 
+            max={10} 
+            onSelect={this.handleLevelChange} 
+            value={this.state.painLevel} 
+          />
           <TextBox 
             label="Notes" 
             name="notes" 
@@ -134,3 +134,12 @@ export class DayForm extends Component {
     )
   }
 }
+
+styles = StyleSheet.create({
+  dayForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '5px'
+  }
+});

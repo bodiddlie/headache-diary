@@ -1,8 +1,11 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router';
+import {StyleSheet, css} from 'aphrodite';
 
 import {auth, db} from './firebase';
 import {TextField} from './shared/text-field';
+
+let styles;
 
 export class Register extends React.Component {
   state = {
@@ -47,9 +50,9 @@ export class Register extends React.Component {
         {loggedIn && (
           <Redirect to="/days" />
         )}
-        <div className="login-wrapper">
-          <div className="login-box">
-            <form className="login-form" onSubmit={this.handleSubmit}>
+        <div className={css(styles.wrapper)}>
+          <div className={css(styles.box)}>
+            <form className={css(styles.form)} onSubmit={this.handleSubmit}>
               <TextField 
                 value={this.state.email}
                 label="Email"
@@ -80,7 +83,7 @@ export class Register extends React.Component {
                 onFieldChanged={e => this.setState({confirm: e.target.value})}
                 type="password"
               />
-              <button type="submit">Register</button>
+              <button className={css(styles.button, styles.hover)} type="submit">Register</button>
               or <Link to="/login">Log In</Link>
             </form>
           </div>
@@ -89,3 +92,38 @@ export class Register extends React.Component {
     )
   }
 }
+
+styles = StyleSheet.create({
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    minHeight: '100vh'
+  },
+  box: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center'
+  },
+  form: {
+    padding: '20px',
+    backgroundColor: '#efefef',
+    borderRadius: '5px',
+    maxWidth: '800px',
+    minWidth: '500px'
+  },
+  button: {
+    color: '#efefef',
+    display: 'inline-block',
+    backgroundColor: '#0000ff',
+    border: 'none',
+    padding: '10px 15px',
+    margin: '0 5px',
+    borderRadius: '30px',
+    cursor: 'pointer'
+  },
+  hover: {
+    ':hover': {
+      background: '#3333ff'
+    }
+  }
+});

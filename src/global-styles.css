@@ -5,10 +5,6 @@ body {
   background: seagreen;
 }
 
-* + * {
-  margin-top: 2em;
-}
-
 .wrapper {
   width: 800px;
   margin: 0 auto;

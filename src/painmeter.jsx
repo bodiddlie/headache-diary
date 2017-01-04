@@ -1,5 +1,7 @@
 import React from 'react';
-import cx from 'classnames';
+import {StyleSheet, css} from 'aphrodite';
+
+let styles;
 
 export const PainMeter = ({min, max, value, onSelect}) => {
   const length = max - min + 1;
@@ -16,7 +18,7 @@ export const PainMeter = ({min, max, value, onSelect}) => {
   ));
 
   return (
-    <div className="meter">
+    <div className={css(styles.meter)}>
       {segments}
     </div>
   );
@@ -42,9 +44,12 @@ const PainSegment = ({value, active, onSelect, first, last, count}) => {
     background: `linear-gradient(to right, hsl(${startColor}, 100%, 50%), hsl(${endColor}, 100%, 50%))`
   };
 
-  const classes = cx(
-    'segment',
-    { active }
+  const classes = css(
+    styles.segment,
+    first && styles.firstSegment,
+    last && styles.lastSegment,
+    active && styles.active,
+    styles.hover
   );
 
   return (
@@ -66,3 +71,40 @@ PainSegment.propTypes = {
   first: React.PropTypes.bool,
   last: React.PropTypes.bool,
 }
+
+styles = StyleSheet.create({
+  meter: {
+    display: 'flex',
+    marginTop: '2em',
+    width: '100%'
+  },
+  segment: {
+    marginTop: 0,
+    display: 'flex',
+    flexGrow: 1,
+    cursor: 'pointer',
+    height: '50px',
+    justifyContent: 'center',
+    color: '#333',
+    alignItems: 'center',
+    fontWeight: 'bold',
+    borderTop: '1px solid #666',
+    borderLeft: '1px solid #666',
+    borderBottom: '1px solid #666',
+  },
+  firstSegment: {
+    borderRadius: '15px 0 0 15px'
+  },
+  lastSegment: {
+    borderRight: '1px solid #666',
+    borderRadius: '0 15px 15px 0'
+  },
+  hover: {
+    ':hover': {
+      boxShadow: 'inset 0 0 10px #666'
+    }
+  },
+  active: {
+    boxShadow: 'inset 0 0 10px #333'
+  }
+});

@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
-import cx from 'classnames';
+import {StyleSheet, css} from 'aphrodite';
+
+let styles;
 
 export class DatePicker extends Component {
   static propTypes = {
@@ -90,20 +92,20 @@ export class DatePicker extends Component {
       }
     })
     return (
-      <div className="datepicker">
-        <div className="dp-month">
+      <div className={css(styles.datepicker)}>
+        <div className={css(styles.month)}>
           <button type="button" onClick={this.onPrevMonth}>&larr;</button>
           <span>{this.state.currentMonth.format('MMMM YYYY')}</span>
           <button type="button" onClick={this.onNextMonth}>&rarr;</button>
         </div>
-        <div className="dp-calendar">
-          <div className="dp-calendar--item">Sun</div>
-          <div className="dp-calendar--item">Mon</div>
-          <div className="dp-calendar--item">Tue</div>
-          <div className="dp-calendar--item">Wed</div>
-          <div className="dp-calendar--item">Thu</div>
-          <div className="dp-calendar--item">Fri</div>
-          <div className="dp-calendar--item">Sat</div>
+        <div className={css(styles.calendar)}>
+          <div className={css(styles.item)}>Sun</div>
+          <div className={css(styles.item)}>Mon</div>
+          <div className={css(styles.item)}>Tue</div>
+          <div className={css(styles.item)}>Wed</div>
+          <div className={css(styles.item)}>Thu</div>
+          <div className={css(styles.item)}>Fri</div>
+          <div className={css(styles.item)}>Sat</div>
           {dayItems}
         </div>
       </div>
@@ -112,19 +114,19 @@ export class DatePicker extends Component {
 }
 
 const Day = ({date, selected, onDayClick, color}) => {
-  const containerClasses = cx(
-    'dp-container',
-    {selected}
-  );
+  const containerClasses = css(
+    styles.container,
+    selected && styles.selected
+  )
 
   const circleColorStyle = {
     background: color
   };
 
   return (
-    <div className="dp-calendar--item">
+    <div className={css(styles.item)}>
       <div className={containerClasses} onClick={() => onDayClick(date)}>
-        <div className="dp-day" style={circleColorStyle}>
+        <div className={css(styles.day, styles.hover)} style={circleColorStyle}>
           <span>{date.date()}</span>
         </div>
       </div>
@@ -141,11 +143,67 @@ Day.propTypes = {
 }
 
 const EmptyDay = () => (
-  <div className="dp-calendar--item">
-    <div className="dp-empty">
-      <div className="dp-day">
+  <div className={css(styles.item)}>
+    <div className={css(styles.empty)}>
+      <div className={css(styles.day)}>
         <span>&nbsp;</span>
       </div>
     </div>
   </div>
 );
+
+styles = StyleSheet.create({
+  datepicker: {
+    backgroundColor: 'white',
+    width: '300px',
+    padding: '10px'
+  },
+  month: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  container: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid transparent'
+  },
+  selected: {
+    border: '1px solid blue'
+  },
+  empty: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '1px solid transparent'
+  },
+  day: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '15px',
+    width: '30px',
+    height: '30px',
+    transition: 'all linear 100ms'
+  },
+  hover: {
+    ':hover': {
+      boxShadow: '3px 3px 3px #888'
+    }
+  },
+  calendar: {
+    fontSize: '.75em',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
+  item: {
+    textAlign: 'center',
+    width: 'calc(14%)',
+    height: 'calc(width)'
+  }
+});
