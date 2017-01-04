@@ -8,7 +8,8 @@ import {DayForm} from './day-form';
 import {Dashboard} from './dashboard';
 import {Login} from './login';
 import {Register} from './register';
-import {auth} from './firebase';
+import {auth, storageKey} from './firebase';
+
 
 class App extends Component {
   state = {
@@ -26,8 +27,10 @@ class App extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
+        window.localStorage.setItem(storageKey, user.uid);
         this.setState({uid: user.uid});
       } else {
+        window.localStorage.removeItem(storageKey);
         this.setState({uid: null});
       }
     });

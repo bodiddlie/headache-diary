@@ -2,20 +2,18 @@ import React from 'react';
 import cx from 'classnames';
 
 export const PainMeter = ({min, max, value, onSelect}) => {
-  let segments = [];
-  for (let i = min; i <= max; i++) {
-    segments.push((
-      <PainSegment
-        key={i}
-        value={i}
-        active={value === i}
-        onSelect={onSelect}
-        first={i === min}
-        last={i === max}
-        count={max - min + 1}
-      />
-    ));
-  }
+  const length = max - min + 1;
+  const segments = Array.from({length}, (u, i) => (
+    <PainSegment 
+      key={i}
+      value={i + min}
+      active={value === i + min}
+      onSelect={onSelect}
+      first={i + min === min}
+      last={i + min === max}
+      count={max - min + 1}
+    />
+  ));
 
   return (
     <div className="meter">

@@ -33,7 +33,7 @@ export class DayForm extends Component {
 
   componentDidUpdate(prevProps, prevState, prevContext) {
     const {date, currentMonth} = this.state;
-    if (this.context.uid && this.context.uid !== prevContext.uid) {
+    if (this.context.uid && (this.context.uid !== prevContext.uid || !this.db)) {
       this.db = db.ref().child('entries').child(this.context.uid);
       this.getEntryForDate(date);
       this.loadEntriesForMonth(currentMonth);
@@ -94,18 +94,19 @@ export class DayForm extends Component {
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
 
+    const transparentColor = 'radial-gradient(circle, hsla(0, 100%, 50%, 0.0) 30%, hsla(0, 5%, 50%, 1.0)';
+
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
-      const endColor = 120 - Math.ceil(((pain + 1) / 11) * 120);
-      return `radial-gradient(circle, hsl(${startColor}, 100%, 50%), 60%, hsl(${endColor}, 100%, 50%))`;
+      return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
     };
 
     if (day.isSame(this.state.date, 'day')) {
-      return this.state.painLevel >= 0 ? colorFn(this.state.painLevel): 'transparent';
+      return this.state.painLevel >= 0 ? colorFn(this.state.painLevel): transparentColor;
     } else if (this.state.entries.hasOwnProperty(dayString)) {
       return colorFn(this.state.entries[dayString].painLevel);
     }
-    return 'transparent';
+    return transparentColor;
   }
 
   render() {

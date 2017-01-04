@@ -20,9 +20,9 @@
   align-items: center;
   border: 1px solid transparent;
 
-  &:hover {
-    border: 1px solid red;
-  }
+  // &:hover {
+  //   border: 1px solid red;
+  // }
 
   &.selected {
     border: 1px solid blue;
@@ -45,6 +45,11 @@
   border-radius: 15px;
   width: 30px;
   height: 30px;
+  transition: all linear 100ms;
+
+  &:hover {
+    box-shadow: 3px 3px 3px #888;
+  }
 }
 
 .dp-calendar {
