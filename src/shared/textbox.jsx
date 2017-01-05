@@ -1,19 +1,16 @@
 import React from 'react';
-import {StyleSheet, css} from 'aphrodite';
-
-let styles;
+import styled from 'styled-components';
 
 export const TextBox = ({label, name, value, onChange}) => {
   return (
-    <div className={css(styles.textBox)}>
-      <label className={css(styles.label)} htmlFor={name}>{label}</label>
-      <textarea 
-        className={css(styles.textArea, styles.focus)}
+    <Container>
+      <Label htmlFor={name}>{label}</Label>
+      <TextArea 
         value={value} 
         name={name} 
         onChange={(e) => onChange(e.target.value)} 
       />
-    </div>
+    </Container>
   );
 }
 
@@ -24,30 +21,27 @@ TextBox.propTypes = {
   onChange: React.PropTypes.func.isRequired
 }
 
-styles = StyleSheet.create({
-  textBox: {
-    width: '100%',
-    marginTop: '2em'
-  },
-  label: {
-    display: 'block',
-    fontWeight: 'bold'
-  },
-  textArea: {
-    padding: '10px',
-    width: '100%',
-    height: '150px',
-    borderRadius: '5px',
-    boxShadow: '0px 0px 3px #ccc, 0 10px 15px #eee inset',
-    border: '1px solid #aaa',
-  },
-  focus: {
-    ':focus': {
-      backgroundColor: '#fff',
-      borderRadius: '5px',
-      border: '1px solid #555',
-      outline: 'none',
-      boxShadow: '0 0 3px #aaa'
-    }
+const Container = styled.div`
+  width: 100%;
+  margin-top: 2em;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-weight: bold;
+`;
+
+const TextArea = styled.textarea`
+  padding: 10px;
+  width: 100%;
+  height: 150px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+  border: 1px solid #aaa;
+
+  &:focus {
+    border: 1px solid #555;
+    outline: none;
+    box-shadow: 0 0 3px #aaa;
   }
-});
+`;

@@ -8,14 +8,18 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import {StyleSheet, css} from 'aphrodite';
+import styled from 'styled-components';
 
 const margins = {left: 20, right: 20, top: 20, bottom: 20};
 
-let styles;
+const ChartContainer = styled.div`
+  width: 100%;
+  background-color: #fff;
+  margin-top: 2em;
+`;
 
 export const PainChart = ({data}) => (
-  <div className={css(styles.painChart)}>
+  <ChartContainer>
     <ResponsiveContainer width="100%" height="100%" minHeight={250}>
       <LineChart margin={margins} data={data}>
         <XAxis name="Date" dataKey="dateName" tick={<AxisTick />} height={40}/>
@@ -25,7 +29,7 @@ export const PainChart = ({data}) => (
         <Tooltip/>
       </LineChart>
     </ResponsiveContainer>
-  </div>
+  </ChartContainer>
 )
 PainChart.propTypes = {
   data: React.PropTypes.array.isRequired
@@ -57,11 +61,3 @@ PainDot.propTypes = {
   stroke: React.PropTypes.string,
   payload: React.PropTypes.object
 }
-
-styles = StyleSheet.create({
-  painChart: {
-    width: '100%',
-    backgroundColor: '#fff',
-    marginTop: '2em'
-  }
-});

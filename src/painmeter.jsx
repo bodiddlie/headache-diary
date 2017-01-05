@@ -1,7 +1,5 @@
 import React from 'react';
-import {StyleSheet, css} from 'aphrodite';
-
-let styles;
+import styled from 'styled-components';
 
 export const PainMeter = ({min, max, value, onSelect}) => {
   const length = max - min + 1;
@@ -11,16 +9,14 @@ export const PainMeter = ({min, max, value, onSelect}) => {
       value={i + min}
       active={value === i + min}
       onSelect={onSelect}
-      first={i + min === min}
-      last={i + min === max}
       count={max - min + 1}
     />
   ));
 
   return (
-    <div className={css(styles.meter)}>
+    <Meter>
       {segments}
-    </div>
+    </Meter>
   );
 }
 
@@ -37,29 +33,15 @@ PainMeter.defaultProps = {
   value: 5
 }
 
-const PainSegment = ({value, active, onSelect, first, last, count}) => {
+const PainSegment = ({value, active, onSelect, count}) => {
   const startColor = 120 - Math.ceil((value / count) * 120);
   const endColor = 120 - Math.ceil(((value + 1) / count) * 120);
-  const segmentStyle = {
-    background: `linear-gradient(to right, hsl(${startColor}, 100%, 50%), hsl(${endColor}, 100%, 50%))`
-  };
-
-  const classes = css(
-    styles.segment,
-    first && styles.firstSegment,
-    last && styles.lastSegment,
-    active && styles.active,
-    styles.hover
-  );
+  const color = `linear-gradient(to right, hsl(${startColor}, 100%, 50%), hsl(${endColor}, 100%, 50%))`;
 
   return (
-    <div 
-      className={classes}
-      style={segmentStyle} 
-      onClick={() => onSelect(value)}
-    >
+    <Segment color={color} onClick={() => onSelect(value)}>
       <span>{value}</span>
-    </div>
+    </Segment>
   )
 }
 
@@ -68,43 +50,39 @@ PainSegment.propTypes = {
   count: React.PropTypes.number.isRequired,
   active: React.PropTypes.bool.isRequired,
   onSelect: React.PropTypes.func.isRequired,
-  first: React.PropTypes.bool,
-  last: React.PropTypes.bool,
 }
 
-styles = StyleSheet.create({
-  meter: {
-    display: 'flex',
-    marginTop: '2em',
-    width: '100%'
-  },
-  segment: {
-    marginTop: 0,
-    display: 'flex',
-    flexGrow: 1,
-    cursor: 'pointer',
-    height: '50px',
-    justifyContent: 'center',
-    color: '#333',
-    alignItems: 'center',
-    fontWeight: 'bold',
-    borderTop: '1px solid #666',
-    borderLeft: '1px solid #666',
-    borderBottom: '1px solid #666',
-  },
-  firstSegment: {
-    borderRadius: '15px 0 0 15px'
-  },
-  lastSegment: {
-    borderRight: '1px solid #666',
-    borderRadius: '0 15px 15px 0'
-  },
-  hover: {
-    ':hover': {
-      boxShadow: 'inset 0 0 10px #666'
-    }
-  },
-  active: {
-    boxShadow: 'inset 0 0 10px #333'
+const Meter = styled.div`
+  display: flex;
+  margin-top: 2em;
+  width: 100%;
+`;
+
+const Segment = styled.div`
+  display: flex;
+  flex-grow: 1;
+  cursor: pointer;
+  height: 50px;
+  justify-content: center;
+  color: #333;
+  align-items: center;
+  font-weight: bold;
+  border-top: 1px solid #666;
+  border-left: 1px solid #666;
+  border-bottom: 1px solid #666;
+  box-shadow: ${props => props.active ? 'inset 0 0 10px #333' : 'none'};
+  background: ${props => props.color};
+
+  &:first-child {
+    border-radius: 15px 0 0 15px;
   }
-});
+
+  &:last-child {
+    border-right: 1px solid #666;
+    border-radius: 0 15px 15px 0;
+  }
+
+  &:hover {
+    box-shadow: inset 0 0 10px #666;
+  }
+`;

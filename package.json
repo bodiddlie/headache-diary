@@ -6,7 +6,6 @@
     "react-scripts": "0.8.4"
   },
   "dependencies": {
-    "aphrodite": "^1.1.0",
     "classnames": "^2.2.5",
     "firebase": "^3.6.4",
     "lodash": "^4.17.2",
@@ -17,7 +16,8 @@
     "react-dates": "^4.3.0",
     "react-dom": "^15.4.1",
     "react-router": "next",
-    "recharts": "^0.19.1"
+    "recharts": "^0.19.1",
+    "styled-components": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

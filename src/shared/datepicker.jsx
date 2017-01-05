@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
-import {StyleSheet, css} from 'aphrodite';
-
-let styles;
+import styled from 'styled-components';
 
 export class DatePicker extends Component {
   static propTypes = {
@@ -92,45 +90,36 @@ export class DatePicker extends Component {
       }
     })
     return (
-      <div className={css(styles.datepicker)}>
-        <div className={css(styles.month)}>
+      <Picker>
+        <Month>
           <button type="button" onClick={this.onPrevMonth}>&larr;</button>
           <span>{this.state.currentMonth.format('MMMM YYYY')}</span>
           <button type="button" onClick={this.onNextMonth}>&rarr;</button>
-        </div>
-        <div className={css(styles.calendar)}>
-          <div className={css(styles.item)}>Sun</div>
-          <div className={css(styles.item)}>Mon</div>
-          <div className={css(styles.item)}>Tue</div>
-          <div className={css(styles.item)}>Wed</div>
-          <div className={css(styles.item)}>Thu</div>
-          <div className={css(styles.item)}>Fri</div>
-          <div className={css(styles.item)}>Sat</div>
+        </Month>
+        <Calendar>
+          <Item>Sun</Item>
+          <Item>Mon</Item>
+          <Item>Tue</Item>
+          <Item>Wed</Item>
+          <Item>Thu</Item>
+          <Item>Fri</Item>
+          <Item>Sat</Item>
           {dayItems}
-        </div>
-      </div>
+        </Calendar>
+      </Picker>
     )
   }
 }
 
 const Day = ({date, selected, onDayClick, color}) => {
-  const containerClasses = css(
-    styles.container,
-    selected && styles.selected
-  )
-
-  const circleColorStyle = {
-    background: color
-  };
-
   return (
-    <div className={css(styles.item)}>
-      <div className={containerClasses} onClick={() => onDayClick(date)}>
-        <div className={css(styles.day, styles.hover)} style={circleColorStyle}>
+    <Item>
+      <Container onClick={() => onDayClick(date)} selected={selected}>
+        <Circle color={color}>
           <span>{date.date()}</span>
-        </div>
-      </div>
-    </div>
+        </Circle>
+      </Container>
+    </Item>
   )
 }
 
@@ -143,67 +132,59 @@ Day.propTypes = {
 }
 
 const EmptyDay = () => (
-  <div className={css(styles.item)}>
-    <div className={css(styles.empty)}>
-      <div className={css(styles.day)}>
+  <Item>
+    <Container>
+      <Circle empty>
         <span>&nbsp;</span>
-      </div>
-    </div>
-  </div>
+      </Circle>
+    </Container>
+  </Item>
 );
 
-styles = StyleSheet.create({
-  datepicker: {
-    backgroundColor: 'white',
-    width: '300px',
-    padding: '10px'
-  },
-  month: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  container: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '1px solid transparent'
-  },
-  selected: {
-    border: '1px solid blue'
-  },
-  empty: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '1px solid transparent'
-  },
-  day: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: '15px',
-    width: '30px',
-    height: '30px',
-    transition: 'all linear 100ms'
-  },
-  hover: {
-    ':hover': {
-      boxShadow: '3px 3px 3px #888'
-    }
-  },
-  calendar: {
-    fontSize: '.75em',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
-  },
-  item: {
-    textAlign: 'center',
-    width: 'calc(14%)',
-    height: 'calc(width)'
+const Picker = styled.div`
+  background-color: white;
+  width: 300px;
+  padding: 10px;
+`;
+
+const Month = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Item = styled.div`
+  text-align: center;
+  width: calc(14%);
+  height: calc(width);
+`;
+
+const Calendar = styled.div`
+  font-size: .75em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border: ${props => props.selected ? '1px solid blue' : '1px solid transparent'};
+`;
+
+const Circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+  transition: all linear 100ms;
+  background: ${props => !!props.color ? props.color : 'transparent'};
+
+  &:hover {
+    box-shadow: ${props => props.empty ? 'none' : '3px 3px 3px #888'};
   }
-});
+`

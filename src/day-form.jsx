@@ -1,14 +1,12 @@
 import React, {Component} from 'react'
 import moment from 'moment';
 import _ from 'lodash';
-import {StyleSheet, css} from 'aphrodite';
+import styled from 'styled-components';
 
 import {db} from './firebase';
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
-
-let styles;
 
 export class DayForm extends Component {
   static contextTypes = {
@@ -96,7 +94,7 @@ export class DayForm extends Component {
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
 
-    const transparentColor = 'radial-gradient(circle, hsla(0, 100%, 50%, 0.0) 30%, hsla(0, 5%, 50%, 1.0)';
+    const transparentColor = 'radial-gradient(circle, hsla(0, 100%, 50%, 0.0) 30%, hsla(0, 5%, 50%, 1.0))';
 
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
@@ -113,7 +111,7 @@ export class DayForm extends Component {
 
   render() {
     return (
-      <form className={css(styles.dayForm)} onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
           <DatePicker 
             calculateBackground={this.calculateBackground}
             onDayClick={this.getEntryForDate}
@@ -130,16 +128,14 @@ export class DayForm extends Component {
             value={this.state.notes} 
             onChange={this.handleNotesChange} 
           />
-      </form>
+      </Form>
     )
   }
 }
 
-styles = StyleSheet.create({
-  dayForm: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '5px'
-  }
-});
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+`;

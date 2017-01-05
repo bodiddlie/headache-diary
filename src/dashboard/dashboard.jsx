@@ -1,12 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import {DateRangePicker} from 'react-dates';
-import {StyleSheet, css} from 'aphrodite';
+import styled from 'styled-components';
 
 import {db} from '../firebase';
 import {PainChart} from './pain-chart';
-
-let styles;
 
 export class Dashboard extends React.Component {
   static contextTypes = {
@@ -51,7 +49,7 @@ export class Dashboard extends React.Component {
 
   render() {
     return (
-      <section className={css(styles.dashboard)}>
+      <DashSection>
         <h1>Dashboard</h1>
         <DateRangePicker
           startDate={this.state.startDate}
@@ -65,15 +63,13 @@ export class Dashboard extends React.Component {
           numberOfMonths={1}
         />
         <PainChart data={this.state.data}/>
-      </section>
+      </DashSection>
     )
   }
 }
 
-styles = StyleSheet.create({
-  dashboard: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-});
+const DashSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`

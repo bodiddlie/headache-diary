@@ -1,11 +1,9 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router';
-import {StyleSheet, css} from 'aphrodite';
+import styled from 'styled-components';
 
 import {auth} from './firebase';
 import {TextField} from './shared/text-field';
-
-let styles;
 
 export class Login extends React.Component {
   static propTypes = {
@@ -48,9 +46,9 @@ export class Login extends React.Component {
         {from && (
           <p>You must log in to view the page at <code>{from.pathname}</code></p>
         )}
-        <div className={css(styles.wrapper)}>
-          <div className={css(styles.box)}>
-            <form className={css(styles.form)} onSubmit={this.handleSubmit}>
+        <Wrapper>
+          <Box>
+            <Form onSubmit={this.handleSubmit}>
               <TextField
                 value={this.state.email}
                 label="Email"
@@ -66,47 +64,47 @@ export class Login extends React.Component {
                 onFieldChanged={e => this.setState({password: e.target.value})}
                 type="password"
               />
-              <button className={css(styles.button, styles.hover)} type="submit">Sign In</button>
+              <Button type="submit">Sign In</Button>
               or <Link to="/register">Create Account</Link>
-            </form>
-          </div>
-        </div>
+            </Form>
+          </Box>
+        </Wrapper>
       </main>
     );
   }
 }
 
-styles = StyleSheet.create({
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    minHeight: '100vh'
-  },
-  box: {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'center'
-  },
-  form: {
-    padding: '20px',
-    backgroundColor: '#efefef',
-    borderRadius: '5px',
-    maxWidth: '800px',
-    minWidth: '500px'
-  },
-  button: {
-    color: '#efefef',
-    display: 'inline-block',
-    backgroundColor: '#0000ff',
-    border: 'none',
-    padding: '10px 15px',
-    margin: '0 5px',
-    borderRadius: '30px',
-    cursor: 'pointer'
-  },
-  hover: {
-    ':hover': {
-      background: '#3333ff'
-    }
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+`;
+
+const Box = styled.div` 
+  display: flex;
+  flex: 1;
+  justify-content: center;
+`;
+
+const Form = styled.form`
+  padding: 20px;
+  background-color: #efefef;
+  border-radius: 5px;
+  max-width: 800px;
+  min-width: 500px;
+`;
+
+const Button = styled.button`
+  color: #efefef;
+  display: inline-block;
+  background-color: #0000ff;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 30px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3333ff;
   }
-});
+`;
