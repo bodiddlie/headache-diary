@@ -12,15 +12,14 @@ import styled from 'styled-components';
 
 const margins = {left: 20, right: 20, top: 20, bottom: 20};
 
-const ChartContainer = styled.div`
-  width: 100%;
-  background-color: #fff;
-  margin-top: 2em;
-`;
+// const ChartContainer = styled.div`
+//   width: 100%;
+//   background-color: #fff;
+//   margin-top: 2em;
+// `;
 
 export const PainChart = ({data}) => (
-  <ChartContainer>
-    <ResponsiveContainer width="100%" height="100%" minHeight={250}>
+    <ResponsiveContainer width="100%" height="100%">
       <LineChart margin={margins} data={data}>
         <XAxis name="Date" dataKey="dateName" tick={<AxisTick />} height={40}/>
         <YAxis type="number" domain={[0,10]} tickCount={11} />
@@ -29,7 +28,6 @@ export const PainChart = ({data}) => (
         <Tooltip/>
       </LineChart>
     </ResponsiveContainer>
-  </ChartContainer>
 )
 PainChart.propTypes = {
   data: React.PropTypes.array.isRequired

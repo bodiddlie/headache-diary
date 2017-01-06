@@ -39,7 +39,7 @@ const PainSegment = ({value, active, onSelect, count}) => {
   const color = `linear-gradient(to right, hsl(${startColor}, 100%, 50%), hsl(${endColor}, 100%, 50%))`;
 
   return (
-    <Segment color={color} onClick={() => onSelect(value)}>
+    <Segment color={color} active={active} onClick={() => onSelect(value)}>
       <span>{value}</span>
     </Segment>
   )

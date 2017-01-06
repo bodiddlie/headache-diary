@@ -7,6 +7,7 @@ import {db} from './firebase';
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
+import {PainChart} from './dashboard/pain-chart';
 
 export class DayForm extends Component {
   static contextTypes = {
@@ -18,6 +19,7 @@ export class DayForm extends Component {
     painLevel: 5,
     notes: '',
     entries: {},
+    data: [],
     currentMonth: moment().startOf('month')
   }
 
@@ -57,7 +59,14 @@ export class DayForm extends Component {
     const end = moment(currentMonth).endOf('month').format('YYYY-MM-DD');
     this.db.orderByKey().startAt(start).endAt(end).on('value', snap => {
       const entries = snap.val() || {};
-      this.setState({entries});
+      const keys = Object.keys(entries);
+      const data = [];
+      keys.forEach(key => {
+        const entry = Object.assign({}, entries[key]);
+        entry.dateName = moment(entry.date, 'YYYY-MM-DD').format('MMM D');
+        data.push(entry);
+      })
+      this.setState({entries, data});
     }, err => {console.log(err)});
   }
 
@@ -112,22 +121,25 @@ export class DayForm extends Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-          <DatePicker 
-            calculateBackground={this.calculateBackground}
-            onDayClick={this.getEntryForDate}
-            onMonthChange={this.handleMonthChange}
-          />
-          <PainMeter 
-            max={10} 
-            onSelect={this.handleLevelChange} 
-            value={this.state.painLevel} 
-          />
-          <TextBox 
-            label="Notes" 
-            name="notes" 
-            value={this.state.notes} 
-            onChange={this.handleNotesChange} 
-          />
+        <ChartContainer>
+          <PainChart data={this.state.data} />
+        </ChartContainer>
+        <DatePicker 
+          calculateBackground={this.calculateBackground}
+          onDayClick={this.getEntryForDate}
+          onMonthChange={this.handleMonthChange}
+        />
+        <PainMeter 
+          max={10} 
+          onSelect={this.handleLevelChange} 
+          value={this.state.painLevel} 
+        />
+        <TextBox 
+          label="Notes" 
+          name="notes" 
+          value={this.state.notes} 
+          onChange={this.handleNotesChange} 
+        />
       </Form>
     )
   }
@@ -139,3 +151,9 @@ const Form = styled.form`
   align-items: center;
   padding: 5px;
 `;
+
+const ChartContainer = styled.div`
+  width: 100%;
+  background-color: #efefef;
+  height: 100px;
+`
