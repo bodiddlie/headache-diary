@@ -7,7 +7,7 @@ import {db} from '../firebase';
 import {PainChart} from './pain-chart';
 
 export class Dashboard extends React.Component {
-  static contextTypes = {
+  static propTypes = {
     uid: React.PropTypes.string
   }
 
@@ -20,9 +20,10 @@ export class Dashboard extends React.Component {
     data: []
   }
 
-  componentDidUpdate(prevProps, prevState, prevContext) {
-    if (this.context.uid && this.context.uid !== prevContext.uid) {
-      this.db = db.ref().child('entries').child(this.context.uid);
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.uid && this.props.uid !== prevProps.uid) {
+      console.log(this.props.uid)
+      this.db = db.ref().child('entries').child(this.props.uid);
     }
     if (this.db && this.state.startDate && this.state.endDate && (
         (!prevState.startDate || !prevState.startDate.isSame(this.state.startDate, 'day')) ||
@@ -50,7 +51,6 @@ export class Dashboard extends React.Component {
   render() {
     return (
       <DashSection>
-        <h1>Dashboard</h1>
         <DateRangePicker
           startDate={this.state.startDate}
           endDate={this.state.endDate}
@@ -69,7 +69,11 @@ export class Dashboard extends React.Component {
 }
 
 const DashSection = styled.section`
+  width: 100%;
+  min-height: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #efefef;
+  border-radius: 1em;
 `

@@ -8,15 +8,8 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import styled from 'styled-components';
 
 const margins = {left: 20, right: 20, top: 20, bottom: 20};
-
-// const ChartContainer = styled.div`
-//   width: 100%;
-//   background-color: #fff;
-//   margin-top: 2em;
-// `;
 
 export const PainChart = ({data}) => (
     <ResponsiveContainer width="100%" height="100%">

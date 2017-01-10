@@ -4,8 +4,8 @@ import {BrowserRouter, Match, Redirect} from 'react-router';
 import {isAuthenticated} from './firebase';
 
 import {Home} from './home';
+import {Header} from './header';
 import {DayForm} from './day-form';
-import {Dashboard} from './dashboard';
 import {Login} from './login';
 import {Register} from './register';
 import {auth, storageKey} from './firebase';
@@ -40,10 +40,10 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="wrapper">
+          <Header />
           <Match exactly pattern="/" component={Home} />
           <Match pattern="/login" component={Login} />
           <Match pattern="/register" component={Register}/>
-          <Match pattern="/dashboard" component={Dashboard} />
           <MatchWhenAuthorized pattern="/days" component={DayForm} />
         </div>
       </BrowserRouter>
