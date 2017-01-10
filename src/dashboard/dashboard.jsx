@@ -22,7 +22,6 @@ export class Dashboard extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.uid && this.props.uid !== prevProps.uid) {
-      console.log(this.props.uid)
       this.db = db.ref().child('entries').child(this.props.uid);
     }
     if (this.db && this.state.startDate && this.state.endDate && (
