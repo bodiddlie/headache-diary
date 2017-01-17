@@ -23,6 +23,7 @@ export const DayForm = () => (
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   
   @media (min-width: 768px) {
     flex-wrap: nowrap;
@@ -31,14 +32,12 @@ const Wrapper = styled.div`
 
 const FormContainer = styled.div`
   display: flex;
-  flex-grow: 1;
-  flex-basis: 50vw;
+  flex: 1 1 auto;
   padding: 5px;
 `;
 
 const ChartContainer = styled.div`
   display: flex;
-  flex-grow: 1;
-  flex-basis: 50vw;
+  flex: 1 1 auto;
   padding: 5px;
 `
