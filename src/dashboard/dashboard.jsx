@@ -69,7 +69,6 @@ export class Dashboard extends React.Component {
 
 const DashSection = styled.section`
   width: 100%;
-  min-height: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;

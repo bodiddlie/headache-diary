@@ -12,7 +12,7 @@ import {
 const margins = {left: 20, right: 20, top: 20, bottom: 20};
 
 export const PainChart = ({data}) => (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height={250}>
       <LineChart margin={margins} data={data}>
         <XAxis name="Date" dataKey="dateName" tick={<AxisTick />} height={40}/>
         <YAxis type="number" domain={[0,10]} tickCount={11} />

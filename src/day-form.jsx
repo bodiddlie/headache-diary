@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  align-items: flex-start;
   
   @media (min-width: 768px) {
     flex-wrap: nowrap;
@@ -32,12 +33,12 @@ const Wrapper = styled.div`
 
 const FormContainer = styled.div`
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   padding: 5px;
 `;
 
 const ChartContainer = styled.div`
   display: flex;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   padding: 5px;
 `
