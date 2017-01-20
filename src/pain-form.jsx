@@ -9,9 +9,6 @@ import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
 
 export class PainForm extends Component {
-  // static contextTypes = {
-  //   uid: React.PropTypes.string
-  // }
   static propTypes = {
     uid: React.PropTypes.string
   }
@@ -105,7 +102,7 @@ export class PainForm extends Component {
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
 
-    const transparentColor = 'radial-gradient(circle, hsla(0, 100%, 50%, 0.0) 30%, hsla(0, 5%, 50%, 1.0))';
+    const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
 
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
@@ -146,10 +143,15 @@ export class PainForm extends Component {
 
 const Form = styled.form`
   width: 100%;
+  min-width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #efefef;
   border-radius: 1rem;
   padding: 5px;
+
+  @media (min-width: 768px) {
+    width: 800px;
+  }
 `;
