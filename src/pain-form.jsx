@@ -7,6 +7,7 @@ import {db} from './firebase';
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
+import {Chart} from './dashboard/chart';
 
 export class PainForm extends Component {
   static propTypes = {
@@ -125,6 +126,7 @@ export class PainForm extends Component {
           onDayClick={this.getEntryForDate}
           onMonthChange={this.handleMonthChange}
         />
+        <Chart data={this.state.data}/>
         <PainMeter 
           max={10} 
           onSelect={this.handleLevelChange} 

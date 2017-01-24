@@ -10,7 +10,6 @@ import {Login} from './login';
 import {Register} from './register';
 import {auth, storageKey} from './firebase';
 
-
 class App extends Component {
   state = {
     uid: null
