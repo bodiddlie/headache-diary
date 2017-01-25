@@ -24,7 +24,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('mounted -', new Date().toLocaleString());
     this.unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         window.localStorage.setItem(storageKey, user.uid);
@@ -37,7 +36,6 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmounted -', new Date().toLocaleString());
     this.unsubscribe();
   }
 

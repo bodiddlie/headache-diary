@@ -5,7 +5,6 @@ export const SvgChart = ({data}) => {
   const lines = [];
   const dots = [];
   data.forEach((val, i, arr) => {
-    console.log(val);
     const fill = 120 - Math.ceil((val.painLevel / 11) * 120);
     const gap = 100 / arr.length;
     const cx = gap * i + 1;
