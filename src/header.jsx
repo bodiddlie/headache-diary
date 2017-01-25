@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {auth} from './firebase';
+
 export const Header = () => (
   <Container>
     <Left>Home</Left>
     <Middle>Pain Diary</Middle>
     <Right>
-      <LogoutButton>Logout</LogoutButton>
+      <LogoutButton onClick={() => auth.signOut()}>Logout</LogoutButton>
     </Right>
   </Container>
 )
