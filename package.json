@@ -14,7 +14,7 @@
     "react-addons-transition-group": "^15.4.1",
     "react-dates": "^4.3.0",
     "react-dom": "^15.4.1",
-    "react-router": "next",
+    "react-router-dom": "next",
     "styled-components": "^1.2.1"
   },
   "scripts": {

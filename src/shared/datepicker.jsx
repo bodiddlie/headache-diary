@@ -142,7 +142,6 @@ const EmptyDay = () => (
 );
 
 const Picker = styled.div`
-  background-color: white;
   width: 300px;
   padding: 10px;
 `;

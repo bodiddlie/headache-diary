@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Match, Redirect} from 'react-router';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 
 import {isAuthenticated} from './firebase';
 
@@ -44,20 +44,29 @@ class App extends Component {
       <BrowserRouter>
         <div className="wrapper">
           <Header />
-          <Match exactly pattern="/" component={Home} />
-          <Match pattern="/login" component={Login} />
-          <Match pattern="/register" component={Register}/>
-          <MatchWhenAuthorized pattern="/days" component={DayForm} />
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register}/>
+          <MatchWhenAuthorized path="/days" component={DayForm} />
         </div>
       </BrowserRouter>
+    );
+  }
+  /*
+  render() {
+    return (
+      <div className="wrapper">
+        <h2>Hi</h2>
+      </div>
     )
   }
+  */
 }
 
 export default App;
 
 const MatchWhenAuthorized = ({component: Component, ...rest}) => (
-  <Match {...rest} render={renderProps => (
+  <Route {...rest} render={renderProps => (
     isAuthenticated() ? (
       <Component {...renderProps} />
     ) : (
