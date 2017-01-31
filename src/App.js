@@ -12,7 +12,8 @@ import {auth, storageKey} from './firebase';
 
 class App extends Component {
   state = {
-    uid: null
+    uid: null,
+    user: null
   };
 
   static childContextTypes = {
@@ -27,10 +28,11 @@ class App extends Component {
     this.unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         window.localStorage.setItem(storageKey, user.uid);
-        this.setState({uid: user.uid});
+        console.log(user);
+        this.setState({uid: user.uid, user});
       } else {
         window.localStorage.removeItem(storageKey);
-        this.setState({uid: null});
+        this.setState({uid: null, user: null});
       }
     });
   }
@@ -43,7 +45,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="wrapper">
-          <Header />
+          <Header user={this.state.user} />
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register}/>

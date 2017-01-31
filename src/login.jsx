@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Redirect} from 'react-router';
+import {Link, Redirect} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {auth} from './firebase';

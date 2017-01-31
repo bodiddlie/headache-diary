@@ -1,33 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 import {auth} from './firebase';
 
-export const Header = () => (
+export const Header = ({user}) => (
   <Container>
-    <Left>Home</Left>
-    <Middle>Pain Diary</Middle>
-    <Right>
-      <LogoutButton onClick={() => auth.signOut()}>Logout</LogoutButton>
-    </Right>
+    <Left>Pain Diary</Left>
+      {!!user ? (
+        <Right>
+          <span>Welcome, {user.displayName}</span>
+          <LogoutButton onClick={() => auth.signOut()}>Logout</LogoutButton>
+        </Right>
+      ) : (
+        <Right>
+          <Link to="/login">Login</Link>
+        </Right>
+      )}
   </Container>
 )
+
+Header.propTypes = {
+  user: React.PropTypes.object
+}
 
 const Container = styled.header`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 3em;
   background-color: #787878;
   color: #efefef;
   padding: .5em;
+  margin-bottom: 1rem;
 `
 
 const Left = styled.div`
-`
-
-const Middle = styled.div`
-  flex-grow: 1;
-  text-align: center;
 `
 
 const Right = styled.div`
