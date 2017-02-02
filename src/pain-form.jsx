@@ -104,11 +104,13 @@ export class PainForm extends Component {
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
 
-    const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
+    //const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
+    const transparentColor = 'transparent';
 
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
-      return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
+      //return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
+      return `hsl(${startColor}, 100%, 50%)`;
     };
 
     if (day.isSame(this.state.date, 'day')) {
@@ -122,12 +124,12 @@ export class PainForm extends Component {
   render() {
     return (
       <Form>
+        <SvgChart data={this.state.data}/>
         <DatePicker 
           calculateBackground={this.calculateBackground}
           onDayClick={this.getEntryForDate}
           onMonthChange={this.handleMonthChange}
         />
-        <SvgChart data={this.state.data}/>
         <PainMeter 
           max={10} 
           onSelect={this.handleLevelChange} 
@@ -150,7 +152,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #efefef;
+  background-color: hsl(238, 5%, 35%);
   border-radius: 1rem;
   padding: 5px;
 

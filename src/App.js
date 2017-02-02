@@ -28,7 +28,6 @@ class App extends Component {
     this.unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         window.localStorage.setItem(storageKey, user.uid);
-        console.log(user);
         this.setState({uid: user.uid, user});
       } else {
         window.localStorage.removeItem(storageKey);
@@ -54,15 +53,6 @@ class App extends Component {
       </BrowserRouter>
     );
   }
-  /*
-  render() {
-    return (
-      <div className="wrapper">
-        <h2>Hi</h2>
-      </div>
-    )
-  }
-  */
 }
 
 export default App;
