@@ -32,4 +32,5 @@ const ChartContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  background: hsla(0, 0%, 50%, 0.40);
 `;

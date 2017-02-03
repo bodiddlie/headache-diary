@@ -149,7 +149,6 @@ const Entry = styled.div`
 const Picker = styled.div`
   width: 300px;
   padding: 10px;
-  background-color: hsl(238, 5%, 35%);
   color: #efefef;
 `;
 

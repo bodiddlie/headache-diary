@@ -125,22 +125,28 @@ export class PainForm extends Component {
     return (
       <Form>
         <SvgChart data={this.state.data}/>
-        <DatePicker 
-          calculateBackground={this.calculateBackground}
-          onDayClick={this.getEntryForDate}
-          onMonthChange={this.handleMonthChange}
-        />
-        <PainMeter 
-          max={10} 
-          onSelect={this.handleLevelChange} 
-          value={this.state.painLevel} 
-        />
-        <TextBox 
-          label="Notes" 
-          name="notes" 
-          value={this.state.notes} 
-          onChange={this.handleNotesChange} 
-        />
+        <Container>
+          <DatePicker 
+            calculateBackground={this.calculateBackground}
+            onDayClick={this.getEntryForDate}
+            onMonthChange={this.handleMonthChange}
+          />
+        </Container>
+        <Container>
+          <PainMeter 
+            max={10} 
+            onSelect={this.handleLevelChange} 
+            value={this.state.painLevel} 
+          />
+        </Container>
+        <Container>
+          <TextBox 
+            label="Notes" 
+            name="notes" 
+            value={this.state.notes} 
+            onChange={this.handleNotesChange} 
+          />
+        </Container>
       </Form>
     )
   }
@@ -155,8 +161,18 @@ const Form = styled.form`
   background-color: hsl(238, 5%, 35%);
   border-radius: 1rem;
   padding: 5px;
+  color: #efefef;
 
   @media (min-width: 768px) {
     width: 800px;
   }
-`;
+`
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: hsla(0, 0%, 50%, 0.4);
+  margin-top: .5rem;
+  padding: .5rem;
+`

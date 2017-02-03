@@ -23,7 +23,6 @@ TextBox.propTypes = {
 
 const Container = styled.div`
   width: 100%;
-  margin-top: 2em;
 `;
 
 const Label = styled.label`
