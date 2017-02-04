@@ -9,8 +9,7 @@ export const Header = ({user}) => (
     <Left>Pain Diary</Left>
       {!!user ? (
         <Right>
-          <span>Welcome, {user.displayName}</span>
-          <LogoutButton onClick={() => auth.signOut()}>Logout</LogoutButton>
+          <LogoutButton onClick={() => auth.signOut()}><i className="fa fa-power-off"></i> Logout</LogoutButton>
         </Right>
       ) : (
         <Right>
@@ -29,10 +28,10 @@ const Container = styled.header`
   align-items: center;
   justify-content: space-between;
   height: 3em;
-  background-color: #787878;
+  background-color: hsla(0, 0%, 50%, .4);
   color: #efefef;
   padding: .5em;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
 `
 
 const Left = styled.div`
@@ -42,16 +41,18 @@ const Right = styled.div`
 `
 
 const LogoutButton = styled.button`
-  color: #efefef;
-  background-color: #0000ff;
-  display: inline-block;
-  border: none;
-  padding: .6em .9em;
-  margin: 0 .3em;
-  border-radius: 2em;
-  cursor: pointer;
+  background: #42d934;
+  background-image: linear-gradient(to bottom, #42d934, #53914c);
+  border-radius: 8px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
 
   &:hover {
-    background-color: #3333ff;
+    background: #3cb0fd;
+    background-image: linear-gradient(to bottom, #49e837, #65b35b);
+    text-decoration: none;
   }
 `

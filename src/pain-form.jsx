@@ -7,7 +7,6 @@ import {db} from './firebase';
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
-//import {Chart} from './dashboard/chart';
 import {SvgChart} from './svg-chart';
 
 export class PainForm extends Component {
