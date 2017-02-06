@@ -33,7 +33,7 @@ const Label = styled.label`
 const TextArea = styled.textarea`
   padding: 10px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   border-radius: 5px;
   box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
   border: 1px solid #aaa;

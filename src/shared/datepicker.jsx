@@ -141,8 +141,9 @@ const Entry = styled.div`
   align-items: center;
   justify-content: center;
   width: 14%;
-  height: 30px;
+  height: 25px;
   font-weight: bold;
+  cursor: pointer;
   border: ${props => props.selected ? '1px solid blue' : '1px solid transparent'};
 `
 
