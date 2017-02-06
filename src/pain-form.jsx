@@ -123,7 +123,9 @@ export class PainForm extends Component {
   render() {
     return (
       <Form>
-        <SvgChart data={this.state.data}/>
+        <Container style={{marginTop: 0}}>
+          <SvgChart data={this.state.data}/>
+        </Container>
         <Container>
           <DatePicker 
             calculateBackground={this.calculateBackground}
@@ -159,7 +161,7 @@ const Form = styled.form`
   align-items: center;
   background-color: hsl(238, 5%, 35%);
   border-radius: 1rem;
-  padding: 5px;
+  padding: 0 5px;
   color: #efefef;
 
   @media (min-width: 768px) {
