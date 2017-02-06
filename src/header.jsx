@@ -9,7 +9,7 @@ export const Header = ({user}) => (
     <Left>Pain Diary</Left>
       {!!user ? (
         <Right>
-          <LogoutButton onClick={() => auth.signOut()}><i className="fa fa-power-off"></i> Logout</LogoutButton>
+          <LogoutButton onClick={() => auth.signOut()}><i className="fa fa-sign-out"></i> Logout</LogoutButton>
         </Right>
       ) : (
         <Right>
@@ -46,8 +46,8 @@ const LogoutButton = styled.button`
   border-radius: 8px;
   font-family: Arial;
   color: #ffffff;
-  font-size: 14px;
-  padding: 5px 10px 5px 10px;
+  font-size: 12px;
+  padding: 2px 5px 2px 5px;
   text-decoration: none;
 
   &:hover {
