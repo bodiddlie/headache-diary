@@ -54,19 +54,22 @@ PainSegment.propTypes = {
 
 const Meter = styled.div`
   display: flex;
-  margin-top: 2em;
   width: 100%;
+  padding: 10px;
+  box-shadow: inset 2px 2px 16px 1px rgba(0, 0, 0, 0.75);
+  border-radius: 25px;
 `;
 
 const Segment = styled.div`
   display: flex;
   flex-grow: 1;
   cursor: pointer;
-  height: 50px;
+  height: 30px;
   justify-content: center;
   color: #333;
   align-items: center;
   font-weight: bold;
+  font-size: .75em;
   border-top: 1px solid #666;
   border-left: 1px solid #666;
   border-bottom: 1px solid #666;

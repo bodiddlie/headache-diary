@@ -7,7 +7,6 @@ import {db} from './firebase';
 import {PainMeter} from './painmeter';
 import {TextBox} from './shared/textbox';
 import {DatePicker} from './shared/datepicker';
-//import {Chart} from './dashboard/chart';
 import {SvgChart} from './svg-chart';
 
 export class PainForm extends Component {
@@ -104,11 +103,13 @@ export class PainForm extends Component {
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
 
-    const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
+    //const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
+    const transparentColor = 'transparent';
 
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
-      return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
+      //return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
+      return `hsl(${startColor}, 100%, 50%)`;
     };
 
     if (day.isSame(this.state.date, 'day')) {
@@ -122,23 +123,31 @@ export class PainForm extends Component {
   render() {
     return (
       <Form>
-        <DatePicker 
-          calculateBackground={this.calculateBackground}
-          onDayClick={this.getEntryForDate}
-          onMonthChange={this.handleMonthChange}
-        />
-        <SvgChart data={this.state.data}/>
-        <PainMeter 
-          max={10} 
-          onSelect={this.handleLevelChange} 
-          value={this.state.painLevel} 
-        />
-        <TextBox 
-          label="Notes" 
-          name="notes" 
-          value={this.state.notes} 
-          onChange={this.handleNotesChange} 
-        />
+        <Container style={{marginTop: 0}}>
+          <SvgChart data={this.state.data}/>
+        </Container>
+        <Container>
+          <DatePicker 
+            calculateBackground={this.calculateBackground}
+            onDayClick={this.getEntryForDate}
+            onMonthChange={this.handleMonthChange}
+          />
+        </Container>
+        <Container>
+          <PainMeter 
+            max={10} 
+            onSelect={this.handleLevelChange} 
+            value={this.state.painLevel} 
+          />
+        </Container>
+        <Container>
+          <TextBox 
+            label="Notes" 
+            name="notes" 
+            value={this.state.notes} 
+            onChange={this.handleNotesChange} 
+          />
+        </Container>
       </Form>
     )
   }
@@ -150,11 +159,21 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #efefef;
+  background-color: hsl(238, 5%, 35%);
   border-radius: 1rem;
-  padding: 5px;
+  padding: 0 5px;
+  color: #efefef;
 
   @media (min-width: 768px) {
     width: 800px;
   }
-`;
+`
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: hsla(0, 0%, 50%, 0.4);
+  margin-top: .5rem;
+  padding: .5rem;
+`

@@ -1,24 +1,83 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const height = 70;
+const gridGap = (height - 10) / 10;
+
+const gridLines = Array.from({length: 11}, (u, i) => (
+  <line 
+    key={'grid' + i} 
+    x1={20} 
+    y1={5 + (i * gridGap)} 
+    x2={300} 
+    y2={5 + (i * gridGap)} 
+    stroke={i % 5 > 0 ? 'hsla(0, 0%, 90%, .6)' : 'hsla(0, 0%, 90%, 1)'} 
+    strokeDasharray={i % 5 > 0 ? '5 3' : '8 1'}
+    strokeWidth=".55" 
+  />
+));
+const numbers = [
+  <text key="number0" x="7" y={5} fill="black" fontSize="10" fontWeight="bold" dominantBaseline="central" textAnchor="middle">10</text>,
+  <text key="number1" x="7" y={5 + (5 * gridGap)} fill="black" fontSize="10" fontWeight="bold" dominantBaseline="central" textAnchor="middle">5</text>,
+  <text key="number2" x="7" y={5 + (10 * gridGap)} fill="black" fontSize="10" fontWeight="bold" dominantBaseline="central" textAnchor="middle">0</text>,
+];
+
 export const SvgChart = ({data}) => {
   const lines = [];
   const dots = [];
+  let sum = 0;
+  let avg = 0;
+  let avgY = 0;
+  const calcYPos = (level) => ((10 - level) * gridGap) + 5;
+
   data.forEach((val, i, arr) => {
     const fill = 120 - Math.ceil((val.painLevel / 11) * 120);
-    const gap = 100 / arr.length;
-    const cx = gap * i + 1;
-    const cy = 12 - val.painLevel;
+    const gap = 260 / (arr.length - 1);
+    const cx = gap * i + 20;
+    const cy = calcYPos(val.painLevel);
     if (i > 0) {
-      lines.push(<line key={'line' + i} x1={cx - gap} y1={12 - arr[i-1].painLevel} x2={cx} y2={12 - val.painLevel} stroke="black" strokeWidth=".15"/>)
+      lines.push(<line key={'line' + i} x1={cx - gap} y1={calcYPos(arr[i-1].painLevel)} x2={cx} y2={calcYPos(val.painLevel)} stroke="black" strokeWidth="1"/>)
     }
-    dots.push(<circle key={'dot' + i} cx={cx} cy={cy} r={.5} stroke="black" strokeWidth=".05" fill={`hsl(${fill}, 100%, 50%)`}/>)
+    dots.push(<circle key={'dot' + i} cx={cx} cy={cy} r={3} stroke="black" strokeWidth=".25" fill={`hsl(${fill}, 100%, 50%)`}/>)
+    sum += val.painLevel;
   });
+
+  if (data.length > 0) {
+    avg = sum / data.length;
+    avgY = calcYPos(avg);
+  }
+
+  const avgColor = 'hsl(178, 56%, 50%)';
+
   return (
     <ChartContainer>
-      <svg viewBox="0 0 100 15" preserveAspectRatio="none" width="100%" height="75px">
-        <line x1="0" y1="0" x2="0" y2="15" stroke="black" />
-        <line x1="0" y1="15" x2="100" y2="15" stroke="black" />
+      <svg width="300px" height={height + 20}>
+        <rect x={0} y={0} width={300} height={height + 20} stroke="black" strokeWidth={.75} fill="hsla(0, 0%, 70%, .0)" />
+        {gridLines}
+        {numbers}
+        {avgY > 0 && (
+          <g>
+            <line x1={0} y1={avgY} x2={300} y2={avgY} stroke={avgColor} strokeWidth={.95} />
+            <rect 
+              x={110} 
+              y={height + 7} 
+              width={5} 
+              height={5} 
+              stroke="black"
+              strokeWidth={.75}
+              fill={avgColor}
+            />
+            <text 
+              x={150} 
+              y={height + 10} 
+              fontSize="12" 
+              fontWeight="bold" 
+              textAnchor="middle" 
+              dominantBaseline="central" 
+              fill="white"
+            >Avg: {avg.toFixed(2)}</text>
+          </g>
+        )}
         {lines}
         {dots}
       </svg>
@@ -31,6 +90,6 @@ SvgChart.propTypes = {
 
 const ChartContainer = styled.div`
   width: 100%;
-  padding: .5rem;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 `;

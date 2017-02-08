@@ -97,13 +97,13 @@ export class DatePicker extends Component {
           <button type="button" onClick={this.onNextMonth}>&rarr;</button>
         </Month>
         <Calendar>
-          <Item>Sun</Item>
-          <Item>Mon</Item>
-          <Item>Tue</Item>
-          <Item>Wed</Item>
-          <Item>Thu</Item>
-          <Item>Fri</Item>
-          <Item>Sat</Item>
+          <Entry>Sun</Entry>
+          <Entry>Mon</Entry>
+          <Entry>Tue</Entry>
+          <Entry>Wed</Entry>
+          <Entry>Thu</Entry>
+          <Entry>Fri</Entry>
+          <Entry>Sat</Entry>
           {dayItems}
         </Calendar>
       </Picker>
@@ -113,13 +113,10 @@ export class DatePicker extends Component {
 
 const Day = ({date, selected, onDayClick, color}) => {
   return (
-    <Item>
-      <Container onClick={() => onDayClick(date)} selected={selected}>
-        <Circle color={color}>
-          <span>{date.date()}</span>
-        </Circle>
-      </Container>
-    </Item>
+    <Entry onClick={() => onDayClick(date)} selected={selected}>
+      <span>{date.date()}</span>
+      <Dot color={color} />
+    </Entry>
   )
 }
 
@@ -132,29 +129,33 @@ Day.propTypes = {
 }
 
 const EmptyDay = () => (
-  <Item>
-    <Container>
-      <Circle empty>
-        <span>&nbsp;</span>
-      </Circle>
-    </Container>
-  </Item>
-);
+  <Entry>
+    <span>&nbsp;</span>
+    <Dot />
+  </Entry>
+)
+
+const Entry = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 14%;
+  height: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  border: ${props => props.selected ? '1px solid blue' : '1px solid transparent'};
+`
 
 const Picker = styled.div`
   width: 300px;
   padding: 10px;
+  color: #efefef;
 `;
 
 const Month = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const Item = styled.div`
-  text-align: center;
-  width: calc(14%);
-  height: calc(width);
 `;
 
 const Calendar = styled.div`
@@ -164,26 +165,25 @@ const Calendar = styled.div`
   justify-content: space-between;
 `;
 
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  border: ${props => props.selected ? '1px solid blue' : '1px solid transparent'};
-`;
+// const Circle = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 15px;
+//   width: 30px;
+//   height: 30px;
+//   transition: all linear 100ms;
+//   background: ${props => !!props.color ? props.color : 'transparent'};
 
-const Circle = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  width: 30px;
-  height: 30px;
-  transition: all linear 100ms;
+//   &:hover {
+//     box-shadow: ${props => props.empty ? 'none' : '3px 3px 3px #888'};
+//   }
+// `
+
+const Dot = styled.div`
+  width: 5px;
+  height: 5px;
   background: ${props => !!props.color ? props.color : 'transparent'};
-
-  &:hover {
-    box-shadow: ${props => props.empty ? 'none' : '3px 3px 3px #888'};
-  }
+  border-radius: 2.5px;
+  border: 0;
 `
