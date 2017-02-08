@@ -31,7 +31,6 @@ const Container = styled.header`
   background-color: hsla(0, 0%, 50%, .4);
   color: #efefef;
   padding: .5em;
-  margin-bottom: .5rem;
 `
 
 const Left = styled.div`
