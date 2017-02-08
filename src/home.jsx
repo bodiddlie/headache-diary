@@ -10,7 +10,7 @@ export const Home = () => (
   <main>
     <Hero>
       <h1>Track your chronic pain.</h1>
-      <HeroText>A simple web appication for tracking/charting your daily pain levels.</HeroText>
+      <HeroText>A simple web application for tracking/charting your daily pain levels.</HeroText>
     </Hero>
     <CardGrid>
       <Card>
