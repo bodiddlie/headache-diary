@@ -5,13 +5,17 @@ const height = 70;
 const gridGap = (height - 10) / 10;
 
 const gridLines = Array.from({length: 11}, (u, i) => (
-  <line key={'grid' + i} x1={20} y1={5 + (i * gridGap)} x2={300} y2={5 + (i * gridGap)} stroke={i % 5 > 0 ? 'hsla(0, 0%, 90%, .6)' : 'hsla(0, 0%, 90%, 1)'} strokeDasharray="5 3" strokeWidth=".55" />
+  <line 
+    key={'grid' + i} 
+    x1={20} 
+    y1={5 + (i * gridGap)} 
+    x2={300} 
+    y2={5 + (i * gridGap)} 
+    stroke={i % 5 > 0 ? 'hsla(0, 0%, 90%, .6)' : 'hsla(0, 0%, 90%, 1)'} 
+    strokeDasharray={i % 5 > 0 ? '5 3' : '8 1'}
+    strokeWidth=".55" 
+  />
 ));
-// const gridLines = [
-//   <line key="grid1" x1={20} y1={5} x2={300} y2={5} stroke="hsl(0, 0%, 90%)" strokeDasharray="5 3" strokeWidth=".75" />,
-//   <line key="grid2" x1={20} y1={5 + (5 * gridGap)} x2={300} y2={5 + (5 * gridGap)} stroke="hsl(0, 0%, 90%)" strokeDasharray="5 3" strokeWidth=".75" />,
-//   <line key="grid3" x1={20} y1={5 + (10 * gridGap)} x2={300} y2={5 + (10 * gridGap)} stroke="hsl(0, 0%, 90%)" strokeDasharray="5 3" strokeWidth=".75" />,
-// ]
 const numbers = [
   <text key="number0" x="7" y={5} fill="black" fontSize="10" fontWeight="bold" dominantBaseline="central" textAnchor="middle">10</text>,
   <text key="number1" x="7" y={5 + (5 * gridGap)} fill="black" fontSize="10" fontWeight="bold" dominantBaseline="central" textAnchor="middle">5</text>,
@@ -43,6 +47,8 @@ export const SvgChart = ({data}) => {
     avgY = calcYPos(avg);
   }
 
+  const avgColor = 'hsl(178, 56%, 50%)';
+
   return (
     <ChartContainer>
       <svg width="300px" height={height + 20}>
@@ -51,8 +57,25 @@ export const SvgChart = ({data}) => {
         {numbers}
         {avgY > 0 && (
           <g>
-            <line x1={0} y1={avgY} x2={300} y2={avgY} stroke="blue" strokeWidth={.75} />
-            <text x={150} y={height + 10} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="central" fill="blue">Avg: {avg.toFixed(2)}</text>
+            <line x1={0} y1={avgY} x2={300} y2={avgY} stroke={avgColor} strokeWidth={.95} />
+            <rect 
+              x={110} 
+              y={height + 7} 
+              width={5} 
+              height={5} 
+              stroke="black"
+              strokeWidth={.75}
+              fill={avgColor}
+            />
+            <text 
+              x={150} 
+              y={height + 10} 
+              fontSize="12" 
+              fontWeight="bold" 
+              textAnchor="middle" 
+              dominantBaseline="central" 
+              fill="white"
+            >Avg: {avg.toFixed(2)}</text>
           </g>
         )}
         {lines}
