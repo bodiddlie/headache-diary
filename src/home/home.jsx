@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {withRouter} from 'react-router-dom';
+
+import {Uid} from '../uid';
+import {Header} from './header';
 
 import hero from './hero.jpg';
 import calendar from './calendar.png';
@@ -7,27 +11,36 @@ import chart from './chart.png';
 import form from './form.png';
 
 export const Home = () => (
+  <Uid>
+    {(uid) => (
+      <HomePage uid={uid} />
+    )}
+  </Uid>
+)
+
+const HomePage = withRouter(({uid, push}) => (
   <main>
+    <Header user={uid} />
     <Hero>
       <h1>Track your chronic pain.</h1>
       <HeroText>A simple web application for tracking/charting your daily pain levels.</HeroText>
     </Hero>
     <CardGrid>
-      <Card>
+      <Card onClick={() => uid && push('/days')}>
         <CardImage src={calendar} alt="Calendar" style={{width:'100%'}} />
         <CardText>
           <h4>Track your whole month</h4>
           <p>See your pain diary at a glance for an entire month.</p>
         </CardText>
       </Card>
-      <Card>
+      <Card onClick={() => uid && push('/days')}>
         <CardImage src={chart} alt="Chart" style={{width:'100%'}} />
         <CardText>
           <h4>Visualize your pain levels</h4>
           <p>See your pain levels across the month in a handy chart that also tracks your average pain level.</p>
         </CardText>
       </Card>
-      <Card>
+      <Card onClick={() => uid && push('/days')}>
         <CardImage src={form} alt="Form" style={{width:'100%'}} />
         <CardText>
           <h4>Simple entry form</h4>
@@ -36,7 +49,7 @@ export const Home = () => (
       </Card>
     </CardGrid>
   </main>
-);
+));
 
 const Hero = styled.div`
   position: relative;
@@ -82,6 +95,7 @@ const Card = styled.section`
   margin-bottom: .75rem;
   display:flex;
   flex-direction: column;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
