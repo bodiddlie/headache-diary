@@ -24,7 +24,8 @@ const Container = styled.header`
   margin-bottom: ${props => props.marginBottom || '0'};
 `
 
-const buttonStyle = (...args) => css`
+/*
+const buttonStyle = (hue) => css`
   background-image: linear-gradient(to bottom, #42d934, #53914c);
   border-radius: 8px;
   color: #efefef;
@@ -38,13 +39,28 @@ const buttonStyle = (...args) => css`
     background-image: linear-gradient(to bottom, #49e837, #65b35b);
   }
 `
+*/
+
+const buttonStyle = (hue) => css`
+  background-image: linear-gradient(to bottom, hsl(${hue}, 69%, 53%), hsl(${hue}, 31%, 43%));
+  border-radius: 8px;
+  color: #efefef;
+  font-size: 12px;
+  padding: 2px 5px 2px 5px;
+  margin-left: 20px;
+  text-decoration: none;
+
+  &:hover {
+    background-image: linear-gradient(to bottom, hsl(${hue}, 80%, 60%), hsl(${hue}, 42%, 50%));
+  }
+`
 
 export const HeaderButton = styled.button`
-  ${buttonStyle``}
+  ${buttonStyle(114)}
 `
 
 export const HeaderLinkButton = styled(Link)`
-  ${buttonStyle``}
+  ${buttonStyle(114)}
 `
 
 export const HeaderTextLink = styled(Link)`
