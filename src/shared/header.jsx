@@ -24,23 +24,6 @@ const Container = styled.header`
   margin-bottom: ${props => props.marginBottom || '0'};
 `
 
-/*
-const buttonStyle = (hue) => css`
-  background-image: linear-gradient(to bottom, #42d934, #53914c);
-  border-radius: 8px;
-  color: #efefef;
-  font-size: 12px;
-  padding: 2px 5px 2px 5px;
-  margin-left: 20px;
-  text-decoration: none;
-
-  &:hover {
-    background: #3cb0fd;
-    background-image: linear-gradient(to bottom, #49e837, #65b35b);
-  }
-`
-*/
-
 const buttonStyle = (hue) => css`
   background-image: linear-gradient(to bottom, hsl(${hue}, 69%, 53%), hsl(${hue}, 31%, 43%));
   border-radius: 8px;
