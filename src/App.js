@@ -4,7 +4,6 @@ import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {isAuthenticated} from './firebase';
 
 import {Home} from './home';
-import {Header} from './header';
 import {DayForm} from './day-form';
 import {Login} from './login';
 import {Register} from './register';
@@ -44,7 +43,6 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="wrapper">
-          <Header user={this.state.user} />
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register}/>

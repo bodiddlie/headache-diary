@@ -2,14 +2,18 @@ import React from 'react'
 import styled from 'styled-components';
 
 import {PainForm} from './pain-form';
-import {Uid} from './uid';
+import {Uid} from '../uid';
+import {Header} from './header';
 
 export const DayForm = () => (
   <Uid>
     {(uid) => (
-      <Wrapper>
-        <PainForm uid={uid} />
-      </Wrapper>
+      <div>
+        <Header />
+        <Wrapper>
+          <PainForm uid={uid} />
+        </Wrapper>
+      </div>
     )}
   </Uid>
 )

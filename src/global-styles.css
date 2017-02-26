@@ -5,16 +5,6 @@ body {
   background: hsl(238, 5%, 35%);
 }
 
-/*.wrapper {
-  width: 800px;
-  margin: 0 auto;
-}
-
-@media only screen and (max-width: 768px) {
-  .wrapper {
-    width: 100%;
-  }
-}*/
 .wrapper {
   width: 100%;
 }
@@ -25,4 +15,8 @@ html {
 
 *, *:before, *:after {
   box-sizing: inherit;
+}
+
+button {
+  border: none;
 }

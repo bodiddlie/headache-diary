@@ -3,10 +3,10 @@ import moment from 'moment';
 import _ from 'lodash';
 import styled from 'styled-components';
 
-import {db} from './firebase';
+import {db} from '../firebase';
 import {PainMeter} from './painmeter';
-import {TextBox} from './shared/textbox';
-import {DatePicker} from './shared/datepicker';
+import {TextBox} from '../shared/textbox';
+import {DatePicker} from '../shared/datepicker';
 import {SvgChart} from './svg-chart';
 
 export class PainForm extends Component {
@@ -29,11 +29,19 @@ export class PainForm extends Component {
     this.debouncedNotes = _.debounce(this.updateNotes, 1000);
   }
 
+  componentDidMount() {
+    this.updateData(this.props);
+  }
+
   componentWillUnmount() {
-    this.db.off();
+    if (this.db) this.db.off();
   }
 
   componentDidUpdate(prevProps) {
+    this.updateData(prevProps);
+  }
+
+  updateData(prevProps) {
     const {date, currentMonth} = this.state;
     if (this.props.uid && (this.props.uid !== prevProps.uid || !this.db)) {
       this.db = db.ref().child('entries').child(this.props.uid);
@@ -54,7 +62,7 @@ export class PainForm extends Component {
   }
 
   loadEntriesForMonth = (currentMonth) => {
-    this.db.off();
+    if (this.db) this.db.off();
     const start = currentMonth.format('YYYY-MM-DD');
     const end = moment(currentMonth).endOf('month').format('YYYY-MM-DD');
     this.db.orderByKey().startAt(start).endAt(end).on('value', snap => {
@@ -102,13 +110,9 @@ export class PainForm extends Component {
 
   calculateBackground = (day) => {
     const dayString = day.format('YYYY-MM-DD');
-
-    //const transparentColor = 'radial-gradient(circle, hsla(0, 0%, 40%, 0.0) 30%, hsla(0, 0%, 40%, 1.0))';
     const transparentColor = 'transparent';
-
     const colorFn = (pain) => {
       const startColor = 120 - Math.ceil((pain / 11) * 120);
-      //return `radial-gradient(circle, hsl(${startColor}, 100%, 50%) 20%, hsl(${startColor}, 15%, 50%))`;
       return `hsl(${startColor}, 100%, 50%)`;
     };
 
