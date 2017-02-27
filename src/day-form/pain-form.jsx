@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import moment from 'moment';
 import _ from 'lodash';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 import {db} from '../firebase';
 import {PainMeter} from './painmeter';
@@ -128,7 +129,10 @@ export class PainForm extends Component {
     return (
       <Form>
         <Container style={{marginTop: 0}}>
-          <SvgChart data={this.state.data}/>
+          <Inner>
+            <SvgChart data={this.state.data}/>
+            <Link to={`/chart/${this.state.currentMonth.format('MMYYYY')}`}>Print</Link>
+          </Inner>
         </Container>
         <Container>
           <DatePicker 
@@ -180,4 +184,11 @@ const Container = styled.div`
   background-color: hsla(0, 0%, 50%, 0.4);
   margin-top: .5rem;
   padding: .5rem;
+`
+
+const Inner = styled.div`
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `

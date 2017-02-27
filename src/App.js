@@ -49,7 +49,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register}/>
             <MatchWhenAuthorized path="/days" component={DayForm} />
-            <MatchWhenAuthorized path="/chart" component={ChartPage} />
+            <MatchWhenAuthorized path="/chart/:month" component={ChartPage} />
           </Switch>
         </div>
       </BrowserRouter>

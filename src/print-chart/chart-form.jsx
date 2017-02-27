@@ -4,16 +4,26 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import {db} from '../firebase';
+import {Chart} from './chart';
 
 export class ChartForm extends Component {
   static propTypes = {
-    uid: PropTypes.string
+    uid: PropTypes.string,
+    month: PropTypes.string
   }
 
-  state = {
-    startDate: moment().subtract(60, 'days'),
-    endDate: moment(),
-    data: []
+  constructor(props) {
+    super(props);
+
+    const {month} = props;
+    const currentMonth = moment(month, 'MMYYYY', true);
+    const startDate = currentMonth.isValid() ? moment(currentMonth).startOf('month') : moment().startOf('month');
+
+    this.state = {
+      startDate,
+      endDate: moment(startDate).endOf('month'),
+      data: []
+    }
   }
 
   componentDidMount() {
@@ -49,9 +59,13 @@ export class ChartForm extends Component {
 
   render() {
     return (
-      <main>
-        Chart goes here.
-      </main>
+      <Main>
+        <Chart data={this.state.data} />
+      </Main>
     )
   }
 }
+
+const Main = styled.main`
+  padding: .5rem;
+`
