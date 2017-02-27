@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 
 import {isAuthenticated} from './firebase';
 
@@ -7,6 +7,7 @@ import {Home} from './home';
 import {DayForm} from './day-form';
 import {Login} from './login';
 import {Register} from './register';
+import {ChartPage} from './print-chart';
 import {auth, storageKey} from './firebase';
 
 class App extends Component {
@@ -43,10 +44,13 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="wrapper">
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register}/>
-          <MatchWhenAuthorized path="/days" component={DayForm} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register}/>
+            <MatchWhenAuthorized path="/days" component={DayForm} />
+            <MatchWhenAuthorized path="/chart" component={ChartPage} />
+          </Switch>
         </div>
       </BrowserRouter>
     );
