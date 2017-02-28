@@ -9,7 +9,7 @@ const gridLines = Array.from({length: 11}, (u, i) => (
     key={'grid' + i}
     x1={20}
     y1={5 + (i * gridGap)}
-    x2={800}
+    x2={'100%'}
     y2={5 + (i * gridGap)}
     stroke={i % 5 > 0 ? 'hsla(0, 0%, 90%, .6)' : 'hsla(0, 0%, 90%, 1)'}
     strokeDasharray={i % 5 > 0 ? '5 3' : '8 1'}
@@ -40,13 +40,13 @@ export const Chart = ({data}) => {
 
   data.forEach((val, i, arr) => {
     const fill = 120 - Math.ceil((val.painLevel / 11) * 120);
-    const gap = 660 / (arr.length - 1);
-    const cx = gap * i + 20;
+    const gap = 97 / (arr.length - 1);
+    const cx = gap * i + 2;
     const cy = calcYPos(val.painLevel);
     if (i > 0) {
-      lines.push(<line key={'line' + i} x1={cx - gap} y1={calcYPos(arr[i-1].painLevel)} x2={cx} y2={calcYPos(val.painLevel)} stroke="black" strokeWidth="1"/>)
+      lines.push(<line key={'line' + i} x1={`${cx - gap}%`} y1={calcYPos(arr[i-1].painLevel)} x2={`${cx}%`} y2={calcYPos(val.painLevel)} stroke="black" strokeWidth="1"/>)
     }
-    dots.push(<circle key={'dot' + i} cx={cx} cy={cy} r={3} stroke="black" strokeWidth=".25" fill={`hsl(${fill}, 100%, 50%)`}/>)
+    dots.push(<circle key={'dot' + i} cx={`${cx}%`} cy={cy} r={3} stroke="black" strokeWidth=".25" fill={`hsl(${fill}, 100%, 50%)`}/>)
     sum += val.painLevel;
   });
 
@@ -59,15 +59,15 @@ export const Chart = ({data}) => {
 
   return (
     <ChartContainer>
-      <svg width="700px" height={height + 20}>
-        <rect x={0} y={0} width={700} height={height + 20} stroke="black" strokeWidth={.75} fill="hsla(0, 0%, 70%, .0)" />
+      <svg width="100%" height={height + 20}>
+        <rect x={0} y={0} width={'100%'} height={height + 20} stroke="black" strokeWidth={.75} fill="hsla(0, 0%, 70%, .0)" />
         {gridLines}
         {numbers}
         {avgY > 0 && (
           <g>
-            <line x1={0} y1={avgY} x2={700} y2={avgY} stroke={avgColor} strokeWidth={.95} />
+            <line x1={0} y1={avgY} x2={'100%'} y2={avgY} stroke={avgColor} strokeWidth={.95} />
             <rect 
-              x={310} 
+              x={'47%'} 
               y={height + 7} 
               width={5} 
               height={5} 
@@ -76,7 +76,7 @@ export const Chart = ({data}) => {
               fill={avgColor}
             />
             <text 
-              x={350} 
+              x={'50%'} 
               y={height + 10} 
               fontSize="12" 
               fontWeight="bold" 
