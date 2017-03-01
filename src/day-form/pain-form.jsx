@@ -6,9 +6,7 @@ import {Link} from 'react-router-dom';
 
 import {db} from '../firebase';
 import {PainMeter} from './painmeter';
-import {TextBox} from '../shared/textbox';
-import {DatePicker} from '../shared/datepicker';
-import {SvgChart} from './svg-chart';
+import {Chart, TextBox, DatePicker} from '../shared';
 
 export class PainForm extends Component {
   static propTypes = {
@@ -130,7 +128,7 @@ export class PainForm extends Component {
       <Form>
         <Container style={{marginTop: 0}}>
           <Inner>
-            <SvgChart data={this.state.data}/>
+            <Chart data={this.state.data} height={70} condensed={true} />
             <Link to={`/chart/${this.state.currentMonth.format('MMYYYY')}`}>Print</Link>
           </Inner>
         </Container>
@@ -187,7 +185,7 @@ const Container = styled.div`
 `
 
 const Inner = styled.div`
-  width: 100%;
+  width: 300px;
   flex-direction: column;
   align-items: center;
   text-align: center;

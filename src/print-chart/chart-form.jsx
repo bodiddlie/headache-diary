@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 
 import {db} from '../firebase';
-import {Chart} from './chart';
+import {Chart} from '../shared';
 
 export class ChartForm extends Component {
   static propTypes = {
@@ -60,7 +60,7 @@ export class ChartForm extends Component {
   render() {
     return (
       <Main>
-        <Chart data={this.state.data} />
+        <Chart data={this.state.data} height={300} />
       </Main>
     )
   }

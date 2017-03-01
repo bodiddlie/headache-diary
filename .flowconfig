@@ -1,7 +1,12 @@
 [ignore]
+.*/styled-components/src/.*
+.*/**/dangerfile.js
 
 [include]
 
 [libs]
+flow-typed
+node_modules/styled-components/flow-typed/react-native.js
 
 [options]
+unsafe.enable_getters_and_setters=true
