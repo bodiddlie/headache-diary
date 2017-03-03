@@ -1,49 +1,42 @@
 // @flow
 import React from 'react';
-
-const avgColor = 'hsl(178, 56%, 50%)';
+import styled from 'styled-components';
 
 type Props = {
-  height: number,
-  parentWidth: number,
-  avg: number
+  avg: number,
+  avgColor: string
 }
 
-export class Average extends React.Component {
-  props: Props;
+export const Average = (props: Props) => {
+  const {avg, avgColor} = props;
 
-  svg: any;
-  listener: () => void;
-
-  state = {
-    width: 0
-  }
-
-  componentDidMount() {
-    this.updateWidth();
-    this.listener = this.updateWidth.bind(this);
-    window.addEventListener('resize', this.listener);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('reisze', this.listener);
-  }
-
-  updateWidth() {
-    if (!this.svg) return;
-
-    const width = this.svg.getBoundingClientRect().width;
-    this.setState({width});
-  }
-
-  render() {
-    const {height, avg, parentWidth} = this.props;
-    const xPos = (parentWidth / 2) - (this.state.width / 2);
-    return (
-      <svg x={xPos} y={height + 8} overflow="visible" ref={r => this.svg = r}>
-        <rect x="0" y="0" width="5" height="5" stroke="black" strokeWidth=".75" fill={avgColor} />
-        <text x="7" y="2" fontSize="12" fontWeight="12" dominantBaseline="central" fill="black">Avg: {avg.toFixed(2)}</text>
-      </svg>
-    )
-  }
+  return (
+    <Container>
+      <LegendBox color={avgColor} show={avg > 0} />
+      <AverageText show={avg > 0}>Avg: {avg.toFixed(2)}</AverageText>
+    </Container>
+  );
 }
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+`
+
+const LegendBox = styled.div`
+  height: 6px;
+  width: 6px;
+  background-color: ${props => props.color};
+  border: 1px solid black;
+  display: ${props => props.show ? 'block' : 'none'};
+`
+
+const AverageText = styled.div`
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  display: ${props => props.show ? 'block' : 'none'};
+`

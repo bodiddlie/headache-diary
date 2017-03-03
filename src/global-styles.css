@@ -5,6 +5,10 @@ body {
   background: hsl(238, 5%, 35%);
 }
 
+@media print {
+  background: #fff;
+}
+
 .wrapper {
   width: 100%;
 }

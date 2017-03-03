@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import styled from 'styled-components';
 
 import {Uid} from '../uid';
 import {Header} from './header';
@@ -21,7 +22,15 @@ type ChartProps = {
 
 const PrintChart = ({uid, month}: ChartProps) => (
   <main>
-    <Header user={uid} />
+    <HeaderContainer>
+      <Header user={uid} />
+    </HeaderContainer>
     <ChartForm uid={uid} month={month} />
   </main>
 )
+
+const HeaderContainer = styled.div`
+  @media print {
+    display: none;
+  }
+`
