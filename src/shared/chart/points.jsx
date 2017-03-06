@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
 
+import {DataPoint} from './data-point';
+
 type Props = {
   data: any,
   height: number,
@@ -15,19 +17,10 @@ export const Points = (props: Props) => {
   return (
     <svg x="7%" y="5" width="90%" height={height + 20}>
       {data.map((val, i) => {
-        const fill = 120 - Math.ceil((val.painLevel / 11) * 120);
         const cx = hgap * i + 2;
         const cy = calcYPos(val.painLevel);
         return (
-          <circle 
-            key={`dot${i}`} 
-            cx={`${cx}%`} 
-            cy={cy} 
-            r={3} 
-            stroke="black"
-            strokeWidth=".25"
-            fill={`hsl(${fill}, 100%, 50%)`}
-          />
+          <DataPoint key={`dot${i}`} cx={cx} cy={cy} entry={val} />
         );
       })}
     </svg>
